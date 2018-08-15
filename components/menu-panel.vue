@@ -13,7 +13,10 @@
 
       .client-link.is-first
         .level.game-logo.is-spio
-          %a.level-item{href:'https://client.starpeace.io'} STARPEACE.io
+          %a.level-item{href:'https://client.starpeace.io'} STAR
+          %a.level-item.logo-item{href:'https://client.starpeace.io'}
+            %img.starpeace-logo
+          %a.level-item{href:'https://client.starpeace.io'} PEACE
         .level.game-notes
           %a.level-left{href:'https://client.starpeace.io'} {{ client_version }}
           %a.level-right.release-notes{href:'https://client.starpeace.io/release'}
@@ -109,25 +112,6 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
     transition-duration: .25s
     transition-property: margin-left, margin-right, margin-top
 
-    &:hover
-      background-color: $sp-primary-extra-light
-      border-radius: 3px
-      box-shadow: 0 8px 8px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1)
-      margin-left: -.5rem
-      margin-right: -.5rem
-
-      .is-spio
-        -webkit-animation: VerticalBackgroundScroll 10s linear infinite
-        -moz-animation: VerticalBackgroundScroll 10s linear infinite
-        animation: VerticalBackgroundScroll 10s linear infinite
-
-    &:active,
-    &.is-active
-      background-color: $sp-primary-light
-
-    &.is-first
-      margin-bottom: .5rem
-
     a
       color: darken($sp-primary, 15%)
       display: inline-block
@@ -149,12 +133,40 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
       &.is-spio
         background-size: cover
         background-image: url('~/assets/images/logo-starpeace-io.jpg')
-        font-family: 'Varela Round', sans-serif
-        font-size: 1.75rem
-        letter-spacing: .2rem
+        text-align: center
 
         a
           color: #FFF
+          font-family: 'Varela Round', sans-serif
+          font-size: 3rem
+          letter-spacing: .5rem
+          line-height: 4.5rem
+          padding: .25rem .5rem
+          text-shadow: 0 0 2rem rgba(0, 0, 0, .7)
+          transition-duration: .25s
+          transition-property: font-size
+
+          &:first-child
+            text-align: right
+
+          &:last-child
+            text-align: left
+
+          &.logo-item
+            margin-right: .5rem
+            max-width: 2.6rem
+            padding: 0
+            transition-property: margin-right
+
+        img
+          background-size: 2.6rem
+          display: block
+          height: 2.6rem
+          margin: 0
+          max-width: 2.6rem
+          width: 2.6rem
+          transition-duration: .25s
+          transition-property: background-size, height, max-width, width
 
       &.is-spo
         background-size: cover
@@ -162,15 +174,45 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
 
         a
           min-height: 5rem
-
-      a
-        padding: .25rem 1rem .25rem
+          padding: .25rem 1rem .25rem
 
     .game-notes
       font-size: 1rem
 
       a
         padding: .25rem 1rem .75rem
+
+
+    &:hover
+      background-color: $sp-primary-extra-light
+      border-radius: 3px
+      box-shadow: 0 8px 8px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1)
+      margin-left: -.5rem
+      margin-right: -.5rem
+
+      .is-spio
+        -webkit-animation: VerticalBackgroundScroll 10s linear infinite
+        -moz-animation: VerticalBackgroundScroll 10s linear infinite
+        animation: VerticalBackgroundScroll 10s linear infinite
+
+        a
+          font-size: 3.25rem
+
+          &.logo-item
+            margin-right: .6rem
+
+        img
+          background-size: 2.8rem
+          height: 2.8rem
+          max-width: 2.8rem
+          width: 2.8rem
+
+    &:active,
+    &.is-active
+      background-color: $sp-primary-light
+
+    &.is-first
+      margin-bottom: .5rem
 
   .menu
     background-color: #fff
