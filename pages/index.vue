@@ -61,7 +61,7 @@ export default
       {
         title: 'New Project Homepage!'
         time: '2018-08-15'
-        details: 'Welcome to the new community homepage for STARPEACE Project! Please mind the broken links and changing layout over the next several weeks as website iterates toward complete.<br/><br/>Browse the Community forum, join game and development Discord chatroom, or follow project on Twitter to stay informed of updates.'
+        details: 'Welcome to the new community homepage for STARPEACE Project! Please mind broken links and changing layout over the next several weeks as website iterates toward completion.<br/><br/>Browse the Community forum, join player and development Discord chatroom, or follow project on Twitter to stay informed of updates.'
       }
     ]
 
