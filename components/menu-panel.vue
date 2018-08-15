@@ -93,6 +93,8 @@ export default
 </script>
 
 <style lang='sass' scoped>
+@import '~bulma/sass/utilities/_all'
+
 $sp-primary: #6ea192
 $sp-primary-bg: #395950
 
@@ -115,7 +117,6 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
     a
       color: darken($sp-primary, 15%)
       display: inline-block
-      margin-top: .25rem
 
       &:hover
         color: darken($sp-primary, 25%)
@@ -155,7 +156,7 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
           &.logo-item
             margin: 0
             max-width: 2.6rem
-            padding: .1rem 0 0
+            padding: 0
             transition-property: margin-right, padding
 
         img
@@ -179,11 +180,14 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
           transition-property: min-height
           width: 100%
 
+          +mobile
+            min-height: 4.8rem
+
     .game-notes
       font-size: 1rem
 
       a
-        padding: .25rem 1rem .75rem
+        padding: .5rem 1rem .75rem
 
 
     &:hover
