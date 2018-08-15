@@ -5,14 +5,10 @@
         %img{src: '~/assets/images/project-logo-small.png'}
       %a.navbar-item.brand-bold{href: '/'} STARPEACE
       %a.navbar-item{href: '/'} Project
-      .navbar-burger.burger{'data-target':'primary-navbar'}
-        %span
-        %span
-        %span
 
     #primary-navbar.navbar-menu
       .navbar-start
-        %a.navbar-item{href:'/'} Home
+        %a.navbar-item{href:'/information/about'} About Project
         .navbar-item.has-dropdown.is-hoverable
           %a.navbar-link{href:'/clients'} Clients
           .navbar-dropdown.is-boxed
@@ -27,7 +23,6 @@
               Forums
             %a.navbar-item{href:'https://discord.gg/TF9Bmsj', target:'_blank'}
               Discord Chatroom
-        %a.navbar-item{href:'/information/about'} About Project
         %a.navbar-item{href:'/information/history'} History
 
       .navbar-end
@@ -41,6 +36,8 @@
 </template>
 
 <style lang='sass' scoped>
+@import '~bulma/sass/utilities/_all'
+
 $sp-primary: #6ea192
 $sp-primary-bg: #395950
 
@@ -61,13 +58,18 @@ nav
       border-color: $sp-primary-dark
 
   .navbar-brand
-    margin-right: 3rem
+    +tablet
+      margin-right: 3rem
 
     img
       margin: 0 .25rem 0 .5rem
       height: 3.25rem
       max-height: 3.25rem
       vertical-align: middle
+
+      +mobile
+        height: 3rem
+        max-height: 3rem
 
     a
       color: $sp-primary-dark
@@ -79,13 +81,20 @@ nav
       vertical-align: middle
       padding: 0
 
+      +mobile
+        font-size: 2rem
+        line-height: 2rem
+
       &.brand-bold
-        color: #000
         font-family: 'Varela Round', sans-serif
         font-size: 3rem
         letter-spacing: .5rem
         line-height: 3rem
         text-shadow: 0 0 .75rem opacify($sp-primary-dark, .8)
+
+        +mobile
+          font-size: 2.5rem
+          line-height: 2.5rem
 
   .navbar-menu
     a

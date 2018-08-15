@@ -1,12 +1,18 @@
 <template lang='haml'>
   .column.column-menu.is-one-quarter-tablet.is-one-quarter-desktop.is-one-fifth-widescreen.is-one-fifth-fullhd
     %aside.menu
+
+      %ul.menu-list
+        %p.menu-label
+          Project News
+      %a.twitter-timeline{href:"https://twitter.com/starpeace_io?ref_src=twsrc%5Etfw", target:'_blank', 'data-chrome':'noheader nofooter noborders noscrollbar', 'data-tweet-limit':1}
+
       %ul.menu-list
         %p.menu-label
           Game Clients
 
-      .client-link.first-client-link
-        .level.game-title.wide
+      .client-link.is-first
+        .level.game-logo.is-spio
           %a.level-item{href:'https://client.starpeace.io'} STARPEACE.io
         .level.game-notes
           %a.level-left{href:'https://client.starpeace.io'} {{ client_version }}
@@ -15,8 +21,8 @@
               Release&nbsp;
             Notes
       .client-link
-        .level.game-title
-          %a.level-item{href:'http://www.starpeaceonline.com/'} StarPeace Online
+        .level.game-logo.is-spo
+          %a.level-item{href:'http://www.starpeaceonline.com/'}
         .level.game-notes
           %a.level-left{href:'http://www.starpeaceonline.com/support.asp'} Windows Client
 
@@ -40,18 +46,25 @@
         %p.menu-label
           Contribute
         %li
-          %a{':class':"category == 'contribute.support' ? 'is-active' : ''", href:"/contribute/support"} Support Project
+          %a{':class':"category == 'contribute.collaborate' ? 'is-active' : ''", href:"/contribute/support"} Collaborate
         %li
           %a{':class':"category == 'contribute.ledger' ? 'is-active' : ''", href:"/contribute/ledger"} Project Ledger
 
         %p.menu-label
+          Development
+        %li
+          %a{':class':"category == 'development.overview' ? 'is-active' : ''", href:"/development/overview"} Overview and Roadmap
+        %li
+          %a{':class':"category == 'development.client' ? 'is-active' : ''", href:"/development/client"} Client
+        %li
+          %a{':class':"category == 'development.server' ? 'is-active' : ''", href:"/development/server"} Server
+        %li
+          %a{':class':"category == 'development.authentication' ? 'is-active' : ''", href:"/development/authentication"} Authentication
+
+        %p.menu-label
           FAQs
         %li
-          %a{':class':"category == 'faq.about' ? 'is-active' : ''", href:"/faq/about"} Project
-        %li
-          %a{':class':"category == 'faq.clients' ? 'is-active' : ''", href:"/faq/clients"} Game Clients
-        %li
-          %a{':class':"category == 'faq.contribute' ? 'is-active' : ''", href:"/faq/contribute"} Contribute
+          %a{':class':"category == 'faq.common' ? 'is-active' : ''", href:"/faq/common"} Common Questions
 
 </template>
 
@@ -59,6 +72,11 @@
 export default
   props:
     category: String
+
+  mounted: ->
+    script = document.createElement('script')
+    script.src = 'https://platform.twitter.com/widgets.js'
+    document.body.appendChild(script)
 
   data: ->
     client_version: 'Client Latest Version'
@@ -85,18 +103,30 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
   padding-bottom: 1rem
 
   .client-link
+    background-color: lighten($sp-primary-extra-light, 15%)
     border: 1px solid lighten($sp-primary-bg, 15%)
     margin: 0 0 1.5rem
-
-    &.first-client-link
-      margin-bottom: .5rem
+    transition-duration: .25s
+    transition-property: margin-left, margin-right, margin-top
 
     &:hover
       background-color: $sp-primary-extra-light
+      border-radius: 3px
+      box-shadow: 0 8px 8px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1)
+      margin-left: -.5rem
+      margin-right: -.5rem
+
+      .is-spio
+        -webkit-animation: VerticalBackgroundScroll 10s linear infinite
+        -moz-animation: VerticalBackgroundScroll 10s linear infinite
+        animation: VerticalBackgroundScroll 10s linear infinite
 
     &:active,
     &.is-active
       background-color: $sp-primary-light
+
+    &.is-first
+      margin-bottom: .5rem
 
     a
       color: darken($sp-primary, 15%)
@@ -113,13 +143,25 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
       &.release-notes
         float: right
 
-    .game-title
-      font-size: 1.75rem
+    .game-logo
       margin-bottom: 0
 
-      &.wide
+      &.is-spio
+        background-size: cover
+        background-image: url('~/assets/images/logo-starpeace-io.jpg')
         font-family: 'Varela Round', sans-serif
+        font-size: 1.75rem
         letter-spacing: .2rem
+
+        a
+          color: #FFF
+
+      &.is-spo
+        background-size: cover
+        background-image: url('~/assets/images/logo-starpeace-online.jpg')
+
+        a
+          min-height: 5rem
 
       a
         padding: .25rem 1rem .25rem

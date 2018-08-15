@@ -1,8 +1,23 @@
 <template lang='haml'>
 .column.column-main-body
-  #welcome-banner.documentation-body.is-starpeace
-    %p
-      Welcome to the STARPEACE Project!
+  .hero.is-primary.is-medium.sp-primary-bg-animation.is-clearfix
+    .hero-body
+      .container.is-fluid
+        %h1.title
+          Welcome to STARPEACE Project!
+        %h2.subtitle
+          Player and Developer Community for STARPEACE: the real-time city-building economic simulation and cooperative multiplayer game
+  .columns
+    .column
+      .box
+        %p.title Announcements
+    .column.is-narrow
+      .box
+        %img{src:'~/assets/images/building-1.gif'}
+    .column
+      .box
+        %p.title Recent Discussions
+
 </template>
 
 <script lang='coffee'>
@@ -23,33 +38,9 @@ $sp-dark-bg: #2a453f
     &.is-6
       padding-right: 0
 
-.banner
-  color: #fff
-  margin-bottom: 1.5rem
-  text-align: center
+.hero
+  margin-bottom: 1rem
 
-  h1
-    display: inline-block
-    font-size: 6vw
-
-  .starpeace-logo
-    background-size: 4.4vw
-    height: 4.4vw
-    width: 4.4vw
-
-  &.mobile
-    h1
-      font-size: 12vw
-
-    .starpeace-logo
-      background-size: 8.75vw
-      height: 8.75vw
-      width: 8.75vw
-
-#sub-banner
-  color: #fff
-  margin-top: 2rem
-  text-align: center
 
 #demo-card
   background-color: $sp-primary-bg

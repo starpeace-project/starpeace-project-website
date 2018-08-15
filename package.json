@@ -1,7 +1,7 @@
 {
   "name": "@starpeace/starpeace-project-website",
   "version": "0.1.0",
-  "description": "Website homepage for STARPEACE Project: a Community for players and developers of the STARPEACE economic simulation and multiplayer game",
+  "description": "Website for STARPEACE Project: a Community for players and developers of the STARPEACE economic simulation and multiplayer game",
   "author": "starpeace-project",
   "license": "MIT",
   "scripts": {
