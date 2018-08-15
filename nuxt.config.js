@@ -12,7 +12,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'STARPEACE Project: a Community for players and developers of the STARPEACE economic simulation and multiplayer game' }
+      { hid: 'description', name: 'description', content: 'Player and Developer Community for STARPEACE: the real-time city-building economic simulation and cooperative multiplayer game' }
     ],
     link: [
       { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },

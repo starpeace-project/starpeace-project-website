@@ -1,12 +1,12 @@
 <template lang='haml'>
-  %nav.navbar.is-transparent
+  %nav#primary-navbar.navbar.is-transparent{':class':'navbar_scroll_class'}
     .navbar-brand
       %a.navbar-item{href: '/'}
         %img{src: '~/assets/images/project-logo-small.png'}
       %a.navbar-item.brand-bold{href: '/'} STARPEACE
       %a.navbar-item{href: '/'} Project
 
-    #primary-navbar.navbar-menu
+    .navbar-menu
       .navbar-start
         %a.navbar-item{href:'/information/about'} About Project
         .navbar-item.has-dropdown.is-hoverable
@@ -29,11 +29,47 @@
         %a.navbar-item{href:'/contribute/support'} Contribute
         %a.navbar-item{href:'/faq/about'} FAQs
         %a.navbar-item{href:'https://docs.starpeace.io'} Documentation
+        .navbar-item.has-dropdown.is-hoverable.language-select
+          %a.navbar-link
+            %span.flag-icon.flag-icon-gb
+          .navbar-dropdown.is-boxed
+            %a.navbar-item
+              %span.flag-icon.flag-icon-gb
+              en
+            %a.navbar-item
+              %span.flag-icon.flag-icon-fr
+              fr
+            %a.navbar-item
+              %span.flag-icon.flag-icon-br
+              br
+            %a.navbar-item
+              %span.flag-icon.flag-icon-de
+              de
+            %a.navbar-item
+              %span.flag-icon.flag-icon-it
+              it
+            %a.navbar-item
+              %span.flag-icon.flag-icon-es
+              es
         %a.navbar-item{href:'https://twitter.com/starpeace_io', target:'_blank'}
           %font-awesome-icon{':icon':"['fab', 'twitter']"}
         %a.navbar-item{href:'https://github.com/starpeace-project/starpeace-project-website', target:'_blank'}
           %font-awesome-icon{':icon':"['fab', 'github']"}
 </template>
+
+<script lang='coffee'>
+export default
+  mounted: ->
+    window.addEventListener('scroll', (event) =>
+      @scroll_y = window.scrollY
+    )
+
+  data: ->
+    scroll_y: 0
+
+  computed:
+    navbar_scroll_class: -> if @scroll_y > 150 then 'floating-navbar' else ''
+</script>
 
 <style lang='sass' scoped>
 @import '~bulma/sass/utilities/_all'
@@ -49,9 +85,23 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
 $sp-primary-bg-light: lighten($sp-primary, 25%)
 $sp-primary-bg-extra-light: lighten($sp-primary-bg-light, 20%)
 
+@keyframes slide
+  0%
+    transform: translate(0, -100%)
+  100%
+    transform: translate(0, 0)
+
 nav
   border-bottom: 2px solid $sp-primary-bg
   font-size: 1.25rem
+
+  &.floating-navbar
+    +desktop
+      -webkit-animation: slide .5s ease 1
+      -moz-animation: slide .5s ease 1
+      animation: slide .5s ease 1
+      position: fixed
+      width: 100%
 
   .navbar-link
     &::after
@@ -122,4 +172,9 @@ nav
 
       &:active
         background-color: $sp-primary-light !important
+
+  .language-select
+    .navbar-item
+      .flag-icon
+        margin-right: .5rem
 </style>

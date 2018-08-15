@@ -7,22 +7,24 @@
           Welcome to STARPEACE Project!
         %h2.subtitle
           Player and Developer Community for STARPEACE: the real-time city-building economic simulation and cooperative multiplayer game
-  .columns
-    .column
-      .box.announcements
-        %p.title Announcements
-        %article.media{'v-for':'item in announcements'}
-          .media-content
-            .content
-              .announcement-item-header
-                %span.announcement-item-title {{item.title}}
-                %span.announcement-item-info {{item.time}}
-              .announcement-item-body{'v-html':'item.details'}
-    .column.is-narrow.has-text-centered
-      .box.has-background-primary
-        %img{':src':'building_image_path()'}
-    .column
-      .box.recent-discussions
+  .tile.is-ancestor
+    .tile.is-vertical.is-6
+      .tile.is-parent
+        .tile-spacer
+          .tile.is-child.box.announcements
+            %p.title Announcements
+            %article.media{'v-for':'item in announcements'}
+              .media-content
+                .content
+                  .announcement-item-title {{item.title}}
+                  .announcement-item-info {{item.time}}
+                  .announcement-item-body{'v-html':'item.details'}
+      .tile.is-parent.img-bottom
+        .tile-spacer
+          .tile.is-child.box.has-background-primary.has-text-centered
+            %img{':src':'building_image_path()'}
+    .tile.is-parent
+      .tile.is-child.box.recent-discussions
         %p.title
           %a{href:'https://starpeaceproject.com/discussions'} Recent Discussions
         %article.media{'v-for':'item in recent_discussions'}
@@ -60,7 +62,7 @@ export default
     announcements: [
       {
         title: 'New Project Homepage!'
-        time: '2018-08-15'
+        time: 'Aug 15, 2018'
         details: 'Welcome to the new community homepage for STARPEACE Project! Please mind broken links and changing layout over the next several weeks as website iterates toward completion.<br/><br/>Browse the Community forum, join player and development Discord chatroom, or follow project on Twitter to stay informed of updates.'
       }
     ]
@@ -92,21 +94,24 @@ $sp-dark-bg: #2a453f
       &:hover
         color: $sp-primary
 
-.announcements
-  .announcement-item-header
-    border-bottom: 1px solid lighten($sp-primary, 25%)
-    margin-bottom: .75rem
-    padding-bottom: .5rem
+.img-bottom
+  text-align: center
 
+  .tile-spacer
+    margin-top: auto!important
+    width: 100%
+
+
+.announcements
   .announcement-item-title
     font-size: 1.4rem
     font-weight: bold
-    margin-right: .5rem
 
   .announcement-item-info
-    color: #555
-    font-size: 1.2rem
+    color: #888
+    font-size: 1rem
     font-weight: 250
+    margin-bottom: .75rem
 
   .announcement-item-body
     font-size: 1.2rem
@@ -126,7 +131,7 @@ $sp-dark-bg: #2a453f
         color: #000
 
   .forum-item-info
-    color: #555
+    color: #888
     font-weight: 250
     margin-top: .1rem
 
