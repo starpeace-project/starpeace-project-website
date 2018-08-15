@@ -11,9 +11,9 @@
     .column
       .box
         %p.title Announcements
-    .column.is-narrow
-      .box
-        %img{src:'~/assets/images/building-1.gif'}
+    .column.is-narrow.has-text-centered
+      .box.has-background-primary
+        %img{':src':'building_image_path()'}
     .column
       .box
         %p.title Recent Discussions
@@ -23,6 +23,10 @@
 <script lang='coffee'>
 export default
   category: 'homepage'
+
+  methods:
+    building_image_path: ->
+      "/assets/img/building-#{Math.floor(Math.random() * 5) + 1}.gif"
 </script>
 
 <style lang='sass' scoped>

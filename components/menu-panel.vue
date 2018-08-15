@@ -12,12 +12,12 @@
           Game Clients
 
       .client-link.is-first
-        .level.game-logo.is-spio
-          %a.level-item{href:'https://client.starpeace.io'} STAR
+        .level.is-mobile.game-logo.is-spio
+          %a.level-item.is-marginless{href:'https://client.starpeace.io'} STAR
           %a.level-item.logo-item{href:'https://client.starpeace.io'}
             %img.starpeace-logo
-          %a.level-item{href:'https://client.starpeace.io'} PEACE
-        .level.game-notes
+          %a.level-item.is-marginless{href:'https://client.starpeace.io'} PEACE
+        .level.is-mobile.game-notes
           %a.level-left{href:'https://client.starpeace.io'} {{ client_version }}
           %a.level-right.release-notes{href:'https://client.starpeace.io/release'}
             %span.is-hidden-tablet-only
@@ -138,9 +138,9 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
         a
           color: #FFF
           font-family: 'Varela Round', sans-serif
-          font-size: 3rem
+          font-size: 2.5rem
           letter-spacing: .5rem
-          line-height: 4.5rem
+          line-height: 4rem
           padding: .25rem .5rem
           text-shadow: 0 0 2rem rgba(0, 0, 0, .7)
           transition-duration: .25s
@@ -153,28 +153,31 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
             text-align: left
 
           &.logo-item
-            margin-right: .5rem
+            margin: 0
             max-width: 2.6rem
-            padding: 0
-            transition-property: margin-right
+            padding: .1rem 0 0
+            transition-property: margin-right, padding
 
         img
-          background-size: 2.6rem
+          background-size: 2.325rem
           display: block
-          height: 2.6rem
+          height: 2.325rem
           margin: 0
-          max-width: 2.6rem
-          width: 2.6rem
+          max-width: 2.325rem
+          width: 2.325rem
           transition-duration: .25s
           transition-property: background-size, height, max-width, width
 
       &.is-spo
-        background-size: cover
         background-image: url('~/assets/images/logo-starpeace-online.jpg')
+        background-repeat: no-repeat
+        background-size: 100%
 
         a
-          min-height: 5rem
-          padding: .25rem 1rem .25rem
+          min-height: 5.25rem
+          transition-duration: .25s
+          transition-property: min-height
+          width: 100%
 
     .game-notes
       font-size: 1rem
@@ -196,16 +199,21 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
         animation: VerticalBackgroundScroll 10s linear infinite
 
         a
-          font-size: 3.25rem
+          font-size: 2.75rem
 
           &.logo-item
-            margin-right: .6rem
+            margin-right: .15rem
+            padding: 0
 
         img
-          background-size: 2.8rem
-          height: 2.8rem
-          max-width: 2.8rem
-          width: 2.8rem
+          background-size: 2.45rem
+          height: 2.45rem
+          max-width: 2.45rem
+          width: 2.45rem
+
+      .is-spo
+        a
+          min-height: 5.5rem
 
     &:active,
     &.is-active
