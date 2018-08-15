@@ -156,8 +156,12 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
           &.logo-item
             margin: 0
             max-width: 2.6rem
-            padding: 0
-            transition-property: margin-right, padding
+            padding: 0 0 .1rem
+            transition-property: margin-right
+
+            +mobile
+              padding-bottom: .2rem
+
 
         img
           background-size: 2.325rem
@@ -207,7 +211,6 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
 
           &.logo-item
             margin-right: .15rem
-            padding: 0
 
         img
           background-size: 2.45rem
