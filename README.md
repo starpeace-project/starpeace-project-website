@@ -3,6 +3,8 @@
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/starpeace-project/starpeace-project-website.svg)](https://github.com/starpeace-project/starpeace-project-website/stargazers)
+![Twitter Follow](https://img.shields.io/twitter/follow/starpeace_io.svg?style=social&label=Follow)
 
 Website for [STARPEACE Project](https://www.starpeace-project.com): a Community for players and developers of the STARPEACE economic simulation and multiplayer game. https://www.starpeace-project.com
 
