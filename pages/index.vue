@@ -1,39 +1,25 @@
 <template lang='haml'>
 .column.column-main-body
-  .hero.is-primary.is-medium.sp-primary-bg-animation.is-clearfix
+  .hero.is-primary.is-medium.sp-primary-bg-animation.is-clearfix.box
     .hero-body
       .container.is-fluid
         %h1.title
           Welcome to STARPEACE Project!
         %h2.subtitle
           Player and Developer Community for STARPEACE: the real-time city-building economic simulation and cooperative multiplayer game
-  .tile.is-ancestor
-    .tile.is-vertical.is-6
-      .tile.is-parent
-        .tile-spacer
-          .tile.is-child.box.announcements
-            %p.title Announcements
-            %article.media{'v-for':'item in announcements'}
-              .media-content
-                .content
-                  .announcement-item-title {{item.title}}
-                  .announcement-item-info {{item.time}}
-                  .announcement-item-body{'v-html':'item.details'}
-      .tile.is-parent.img-bottom
-        .tile-spacer
-          .tile.is-child.box.has-background-primary.has-text-centered
-            %img{':src':'building_image_path()'}
-    .tile.is-parent
-      .tile.is-child.box.recent-discussions
-        %p.title
-          %a{href:'https://starpeaceproject.com/discussions'} Recent Discussions
-        %article.media{'v-for':'item in recent_discussions'}
-          .media-content
-            .content
-              .forum-item-title
-                %a{':href':'item.link'} {{item.title}}
-              .forum-item-info {{item.pubDate}} by {{item.creator}}
-              .forum-item-body{'v-html':'item.description'}
+  .column.is-paddingless
+    .box
+      %p.title
+        %a{href:'https://starpeaceproject.com/discussions'} Recent Discussions
+      %article.media{'v-for':'item in recent_discussions'}
+        .media-content
+          .content
+            .forum-item-title
+              %a{':href':'item.link'} {{item.title}}
+            .forum-item-info {{item.pubDate}} by {{item.creator}}
+            .forum-item-body{'v-html':'item.description'}
+    .box.has-background-primary.has-text-centered
+      %img{':src':'building_image_path()'}
 </template>
 
 <script lang='coffee'>
@@ -59,13 +45,6 @@ export default
 
   data: ->
     recent_discussions: []
-    announcements: [
-      {
-        title: 'New Project Homepage!'
-        time: 'Aug 15, 2018'
-        details: 'Welcome to the new community homepage for STARPEACE Project! Please mind broken links and changing layout over the next several weeks as website iterates toward completion.<br/><br/>Browse the Community forum, join player and development Discord chatroom, or follow project on Twitter to stay informed of updates.'
-      }
-    ]
 
   methods:
     building_image_path: ->
@@ -93,28 +72,6 @@ $sp-dark-bg: #2a453f
 
       &:hover
         color: $sp-primary
-
-.img-bottom
-  text-align: center
-
-  .tile-spacer
-    margin-top: auto!important
-    width: 100%
-
-
-.announcements
-  .announcement-item-title
-    font-size: 1.4rem
-    font-weight: bold
-
-  .announcement-item-info
-    color: #888
-    font-size: 1rem
-    font-weight: 250
-    margin-bottom: .75rem
-
-  .announcement-item-body
-    font-size: 1.2rem
 
 .recent-discussions
   .forum-item-title

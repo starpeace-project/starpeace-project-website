@@ -5,7 +5,7 @@ const is_development = process.env.NODE_ENV === 'development'
 
 module.exports = {
   css: [
-    { src: '~/assets/stylesheets/bulma-starpeace.sass', lang: 'sass' }
+    { src: '~/assets/stylesheets/starpeace-bulma.sass', lang: 'sass' }
   ],
   head: {
     title: 'STARPEACE Project',

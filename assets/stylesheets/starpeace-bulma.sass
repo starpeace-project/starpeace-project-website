@@ -1,0 +1,128 @@
+/*@import '~bulma/sass/utilities/_all'*/
+@import "~bulma/sass/utilities/initial-variables"
+@import "~bulma/sass/utilities/functions"
+
+$flag-icon-css-path: '~flag-icon-css/flags'
+@import "~flag-icon-css/sass/variables"
+@import "~flag-icon-css/sass/flag-icon-base"
+@include flag-icon(gb)
+@include flag-icon(fr)
+@include flag-icon(br)
+@include flag-icon(de)
+@include flag-icon(it)
+@include flag-icon(es)
+
+@import "~assets/stylesheets/starpeace-variables"
+
+$primary: darken($sp-primary, 10%)
+
+$link: darken($sp-primary, 20%)
+$link-hover: darken($sp-primary, 10%)
+$link-active: darken($sp-primary, 25%)
+
+@import '~bulma'
+
+@keyframes spin
+  100%
+    transform: rotate(360deg)
+
+@-webkit-keyframes Gradient
+  0%
+    background-position: 0% 50%
+  75%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
+
+@-moz-keyframes Gradient
+  0%
+    background-position: 0% 50%
+  75%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
+
+@keyframes Gradient
+  0%
+    background-position: 0% 50%
+  75%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
+
+@-webkit-keyframes VerticalBackgroundScroll
+  0%
+    background-position-y: 0%
+  100%
+    background-position-y: 100%
+
+@-moz-keyframes VerticalBackgroundScroll
+  0%
+    background-position-y: 0%
+  100%
+    background-position-y: 100%
+
+@keyframes VerticalBackgroundScroll
+  0%
+    background-position-y: 0%
+  100%
+    background-position-y: 100%
+
+
+/* handle auto-generated vue transition classes */
+.fade-enter-active
+  transition: opacity .5s
+.fade-leave-active
+  transition: opacity .5s
+.fade-enter
+  opacity: 0
+.fade-leave-to
+  opacity: 0
+
+.fade-in-enter-active
+  transition: opacity .5s
+.fade-in-enter
+  opacity: 0
+.fade-in-leave-to
+  opacity: 0
+
+/* cloak to keep DOM elements hidden until vue ready */
+[v-cloak]
+  display: none
+
+
+a
+  font-weight: bold
+  text-decoration: none
+
+/* transform color with filters: https://codepen.io/sosuke/pen/Pjoqqp */
+.starpeace-logo
+  background-image: url($sp-logo-image-data)
+  content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAC0lEQVQI12NgAAIAAAUAAeImBZsAAAAASUVORK5CYII=')
+
+.sp-primary-bg-animation
+  background: linear-gradient(-45deg, darken($sp-primary-bg, 15%), $sp-primary-bg, darken($sp-primary, 10%))
+  background-size: 400% 400%
+  -webkit-animation: Gradient 15s ease infinite
+  -moz-animation: Gradient 15s ease infinite
+  animation: Gradient 15s ease infinite
+
+
+.column-main-body
+  background-color: #eee
+
+  .documentation-body
+    background-color: #fff
+    padding: 1rem
+    font-size: 1.2rem
+
+    &:not(:first-child)
+      margin-top: 1rem
+
+    &.is-starpeace
+      background-color: lighten($sp-primary-bg, 15%)
+      color: #fff
+
+    p
+      &:not(:last-child)
+        margin-bottom: 1rem

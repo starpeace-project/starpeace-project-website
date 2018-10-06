@@ -13,7 +13,7 @@
           %a.navbar-link{href:'/clients'} Clients
           .navbar-dropdown.is-boxed
             %a.navbar-item{href:'https://www.starpeace.io', target:'_blank'}
-              STARPEACE.io
+              STARPEACE
             %a.navbar-item{href:'http://www.starpeaceonline.com', target:'_blank'}
               StarPeace Online
         .navbar-item.has-dropdown.is-hoverable
@@ -26,8 +26,8 @@
         %a.navbar-item{href:'/information/history'} History
 
       .navbar-end
-        %a.navbar-item{href:'/contribute/support'} Contribute
-        %a.navbar-item{href:'/faq/about'} FAQs
+        %a.navbar-item{href:'/contribute/collaborate'} Contribute
+        %a.navbar-item{href:'/faq/common'} FAQs
         %a.navbar-item{href:'https://docs.starpeace.io'} Documentation
         .navbar-item.has-dropdown.is-hoverable.language-select
           %a.navbar-link

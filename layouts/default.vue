@@ -35,4 +35,23 @@ body
   font-size: 12px
   margin: 0
   padding: 0
+
+#application-container
+  display: grid
+  grid-template-columns: auto
+  grid-template-rows: 4rem auto 11rem
+
+  @media screen and (max-width: 768px)
+    display: inline-block
+
+    #common-header
+      display: inline-block
+      width: 100%
+
+  #application-body
+    grid-column-start: 1
+    grid-column-end: 2
+    grid-row-start: 2
+    grid-row-end: 2
+    margin: 0
 </style>

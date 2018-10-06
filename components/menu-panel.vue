@@ -11,23 +11,24 @@
         %p.menu-label
           Game Clients
 
-      .client-link.is-first
-        .level.is-mobile.game-logo.is-spio
-          %a.level-item.is-marginless{href:'https://client.starpeace.io'} STAR
-          %a.level-item.logo-item{href:'https://client.starpeace.io'}
-            %img.starpeace-logo
-          %a.level-item.is-marginless{href:'https://client.starpeace.io'} PEACE
-        .level.is-mobile.game-notes
-          %a.level-left{href:'https://client.starpeace.io'} {{ client_version }}
-          %a.level-right.release-notes{href:'https://client.starpeace.io/release'}
-            %span.is-hidden-tablet-only
-              Release&nbsp;
-            Notes
-      .client-link
-        .level.game-logo.is-spo
-          %a.level-item{href:'http://www.starpeaceonline.com/'}
-        .level.game-notes
-          %a.level-left{href:'http://www.starpeaceonline.com/support.asp'} Windows Client
+      .client-container
+        .client-link.is-first
+          .level.is-mobile.game-logo.is-spio
+            %a.level-item.is-marginless{href:'https://client.starpeace.io'} STAR
+            %a.level-item.logo-item{href:'https://client.starpeace.io'}
+              %img.starpeace-logo
+            %a.level-item.is-marginless{href:'https://client.starpeace.io'} PEACE
+          .level.is-mobile.game-notes
+            %a.level-left{href:'https://client.starpeace.io'} {{ client_version }}
+            %a.level-right.release-notes{href:'https://client.starpeace.io/release'}
+              %span.is-hidden-tablet-only
+                Release&nbsp;
+              Notes
+        .client-link
+          .level.game-logo.is-spo
+            %a.level-item{href:'http://www.starpeaceonline.com/'}
+          .level.game-notes
+            %a.level-left{href:'http://www.starpeaceonline.com/support.asp'} Windows Client
 
       %ul.menu-list
         %p.menu-label
@@ -49,7 +50,7 @@
         %p.menu-label
           Contribute
         %li
-          %a{':class':"category == 'contribute.collaborate' ? 'is-active' : ''", href:"/contribute/support"} Collaborate
+          %a{':class':"category == 'contribute.collaborate' ? 'is-active' : ''", href:"/contribute/collaborate"} Collaborate
         %li
           %a{':class':"category == 'contribute.ledger' ? 'is-active' : ''", href:"/contribute/ledger"} Project Ledger
 
@@ -60,9 +61,9 @@
         %li
           %a{':class':"category == 'development.client' ? 'is-active' : ''", href:"/development/client"} Client
         %li
-          %a{':class':"category == 'development.server' ? 'is-active' : ''", href:"/development/server"} Server
+          %a{':class':"category == 'development.api' ? 'is-active' : ''", href:"/development/api"} Game API
         %li
-          %a{':class':"category == 'development.authentication' ? 'is-active' : ''", href:"/development/authentication"} Authentication
+          %a{':class':"category == 'development.engine' ? 'is-active' : ''", href:"/development/engine"} Simulation Engine
 
         %p.menu-label
           FAQs
@@ -106,6 +107,9 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
   min-width: 28rem
   padding: 0
   padding-bottom: 1rem
+
+  .client-container
+    min-height: 17rem
 
   .client-link
     background-color: lighten($sp-primary-extra-light, 15%)
