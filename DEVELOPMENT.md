@@ -33,7 +33,7 @@ If you discover a security vulnerability within STARPEACE, please send an e-mail
 
 ## Development, Build, and Deployment
 
-Please see [development manual](./DEVELOPMENT.md) for starpeace-project-website development instructions.
+Please see [development manual](./DEVELOPMENT.md)
 
 After building repository, website is compiled into static resources within the ```/dist/``` folder. These resources should be served as static assets from web application and can be cached if desired.
 
