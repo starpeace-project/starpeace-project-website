@@ -14,19 +14,20 @@ Website for [STARPEACE Project](https://www.starpeace-project.com): a Community 
 Looking to play STARPEACE or help contribute to a modern open-source re-write? Please explore the following repositories and join our [Discord chatroom](https://discord.gg/TF9Bmsj) to learn more!
 
 ### Client
-* [starpeace-website](https://github.com/starpeace-project/starpeace-website) - Client website static homeage and information
-* [starpeace-website-client](https://github.com/starpeace-project/starpeace-website-client) - Client website application
-* [starpeace-website-client-assets](https://github.com/starpeace-project/starpeace-website-client-assets) - Assets and gameplay resources for starpeace-website-client application
-* [starpeace-website-documentation](https://github.com/starpeace-project/starpeace-website-documentation) - Documentation website
+* [starpeace-website](https://github.com/starpeace-project/starpeace-website) - static client homepage and license content
+* [starpeace-website-client](https://github.com/starpeace-project/starpeace-website-client) - client game application logic and webgl rendering website
+* [starpeace-website-client-assets](https://github.com/starpeace-project/starpeace-website-client-assets) - raw media assets, gameplay resources, and procedural generation logic for client
+* [starpeace-website-documentation](https://github.com/starpeace-project/starpeace-website-documentation) - static and dynamic documentation website
 
 ### Server
-* [starpeace-lumen-api-interface](https://github.com/starpeace-project/starpeace-lumen-api-interface) - Primary API interface
+* [starpeace-lumen-api-interface](https://github.com/starpeace-project/starpeace-lumen-api-interface) - primary API interface
 * [starpeace-laravel-controller](https://github.com/starpeace-project/starpeace-laravel-controller) - API container and controller
-* [starpeace-eloquent-models](https://github.com/starpeace-project/starpeace-eloquent-models) - Backend data models
-* [starpeace-simulation-engine](https://github.com/starpeace-project/starpeace-simulation-engine) - Simulation engine
+* [starpeace-eloquent-models](https://github.com/starpeace-project/starpeace-eloquent-models) - backend data models
+* [starpeace-simulation-engine](https://github.com/starpeace-project/starpeace-simulation-engine) - simulation engine
 
 ### Misc
-* [starpeace-documents-public](https://github.com/starpeace-project/starpeace-documents-public) - Public design, planning, and gameplay documents
+* [starpeace-documents-public](https://github.com/starpeace-project/starpeace-documents-public) - public design, planning, and gameplay documents
+* [starpeace-project-website](https://github.com/starpeace-project/starpeace-project-website) - project static content and information
 
 Be sure to checkout [StarPeace Online](https://www.starpeaceonline.com) to play using legacy Windows client and servers.
 
