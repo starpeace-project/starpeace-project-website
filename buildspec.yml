@@ -6,20 +6,24 @@ phases:
       - echo Entered the install phase...
       - npm update -g npm
       - npm install -g grunt-cli
+
   pre_build:
     commands:
       - echo Entered the pre_build phase...
       - npm install
+
   build:
     commands:
       - echo Entered the build phase...
       - echo Build started on `date`
       - npm run generate
+      - npm run generate-api-docs
+
   post_build:
     commands:
       - echo Entered the post_build phase...
       - aws s3 sync --delete dist "s3://www.starpeace-project.com/"
-      - aws cloudfront create-invalidation --distribution-id E1IMGZSYYR5EOR --paths / /privacy/
+      - aws cloudfront create-invalidation --distribution-id E1IMGZSYYR5EOR --paths / /privacy/ /api/galaxy/
       - echo Build completed on `date`
 
 artifacts:

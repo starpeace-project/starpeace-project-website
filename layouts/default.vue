@@ -1,11 +1,11 @@
-<template lang='haml'>
-%no-ssr
-  #application-container{'v-cloak':true}
-    %sp-header
+<template lang='pug'>
+#application-container(v-cloak=true)
+  no-ssr
+    sp-header
     #application-body.columns
-      %sp-menu{'v-bind:category':'category'}
-      %nuxt
-    %sp-footer
+      sp-menu(:category='category')
+      nuxt
+    sp-footer
 </template>
 
 <script lang='coffee'>

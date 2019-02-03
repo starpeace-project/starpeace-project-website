@@ -29,16 +29,10 @@ module.exports = {
   build: {
     // analyze: true,
     publicPath: '/assets/',
-    vendor: [],
     extend (config, { isDev, isClient }) {
       config.module.rules.push({
         test: /\.coffee$/,
         use: 'coffee-loader',
-        exclude: /(node_modules)/
-      });
-      config.module.rules.push({
-        test: /\.haml$/,
-        use: 'haml',
         exclude: /(node_modules)/
       });
     }

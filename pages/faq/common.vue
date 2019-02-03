@@ -1,9 +1,8 @@
-<template lang='haml'>
-%no-ssr
-  .column.column-main-body{'v-cloak':true}
-    .card
-      .card-content
-        %h2.title Common Questions
+<template lang='pug'>
+.column.column-main-body(v-cloak=true)
+  .card
+    .card-content
+      h2.title Common Questions
 </template>
 
 <script lang='coffee'>

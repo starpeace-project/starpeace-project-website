@@ -1,54 +1,29 @@
-<template lang='haml'>
+<template lang='pug'>
 .column.column-main-body
   .hero.is-primary.is-medium.sp-primary-bg-animation.is-clearfix.box
     .hero-body
       .container.is-fluid
-        %h1.title
-          Welcome to STARPEACE Project!
-        %h2.subtitle
-          Player and Developer Community for STARPEACE: the real-time city-building economic simulation and cooperative multiplayer game
+        h1.title Welcome to STARPEACE Project!
+        h2.subtitle Player and Developer Community for STARPEACE: the real-time city-building economic simulation and cooperative multiplayer game
+
   .column.is-paddingless
-    .box
-      %p.title
-        %a{href:'https://starpeaceproject.com/discussions'} Recent Discussions
-      %article.media{'v-for':'item in recent_discussions'}
-        .media-content
-          .content
-            .forum-item-title
-              %a{':href':'item.link'} {{item.title}}
-            .forum-item-info {{item.pubDate}} by {{item.creator}}
-            .forum-item-body{'v-html':'item.description'}
     .box.has-background-primary.has-text-centered
-      %img{':src':'building_image_path()'}
+      img(:src='building_image_path()')
+
 </template>
 
 <script lang='coffee'>
-# see https://developer.yahoo.com/yql/ for more details (xss workaround)
-RSS_URL = "https://starpeaceproject.com/categories/open-discussion/feed.rss"
-XSS_RSS_URL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20rss%20where%20url%3D'https%3A%2F%2Fstarpeaceproject.com%2Fcategories%2Fopen-discussion%2Ffeed.rss'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys"
 
 recent_discussions = []
-#if process.browser
 
 export default
   category: 'homepage'
-
-  mounted: ->
-    window.handleResponse = (response) =>
-      items = response?.query?.results?.item || []
-      @recent_discussions = items
-
-    script = document.createElement('script')
-    script.setAttribute('type', 'text/javascript')
-    script.setAttribute('src', XSS_RSS_URL + "&callback=handleResponse")
-    document.body.appendChild(script)
 
   data: ->
     recent_discussions: []
 
   methods:
-    building_image_path: ->
-      "/assets/img/building-#{Math.floor(Math.random() * 5) + 1}.gif"
+    building_image_path: -> "assets/img/building-#{Math.floor(Math.random() * 5) + 1}.gif"
 </script>
 
 <style lang='sass' scoped>

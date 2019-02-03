@@ -1,74 +1,72 @@
-<template lang='haml'>
+<template lang='pug'>
   .column.column-menu.is-one-quarter-tablet.is-one-quarter-desktop.is-one-fifth-widescreen.is-one-fifth-fullhd
-    %aside.menu
+    aside.menu
 
-      %ul.menu-list
-        %p.menu-label
-          Project News
-      %a.twitter-timeline{href:"https://twitter.com/starpeace_io?ref_src=twsrc%5Etfw", target:'_blank', 'data-chrome':'noheader nofooter noborders noscrollbar', 'data-tweet-limit':1}
+      ul.menu-list
+        p.menu-label Project News
+      a.twitter-timeline(href="https://twitter.com/starpeace_io?ref_src=twsrc%5Etfw", target='_blank', data-chrome='noheader nofooter noborders noscrollbar', data-tweet-limit=1)
 
-      %ul.menu-list
-        %p.menu-label
-          Game Clients
+      ul.menu-list
+        p.menu-label Game Clients
 
       .client-container
         .client-link.is-first
           .level.is-mobile.game-logo.is-spio
-            %a.level-item.is-marginless{href:'https://client.starpeace.io'} STAR
-            %a.level-item.logo-item{href:'https://client.starpeace.io'}
-              %img.starpeace-logo
-            %a.level-item.is-marginless{href:'https://client.starpeace.io'} PEACE
+            a.level-item.is-marginless(href='https://client.starpeace.io') STAR
+            a.level-item.logo-item(href='https://client.starpeace.io')
+              img.starpeace-logo
+            a.level-item.is-marginless(href='https://client.starpeace.io') PEACE
           .level.is-mobile.game-notes
-            %a.level-left{href:'https://client.starpeace.io'} {{ client_version }}
-            %a.level-right.release-notes{href:'https://client.starpeace.io/release'}
-              %span.is-hidden-tablet-only
-                Release&nbsp;
-              Notes
+            a.level-left(href='https://client.starpeace.io') {{ client_version }}
+            a.level-right.release-notes(href='https://client.starpeace.io/release')
+              span.is-hidden-tablet-only
+                | Release
+                |
+              | Notes
         .client-link
           .level.game-logo.is-spo
-            %a.level-item{href:'http://www.starpeaceonline.com/'}
+            a.level-item(href='http://www.starpeaceonline.com/')
           .level.game-notes
-            %a.level-left{href:'http://www.starpeaceonline.com/support.asp'} Windows Client
+            a.level-left(href='http://www.starpeaceonline.com/support.asp') Windows Client
 
-      %ul.menu-list
-        %p.menu-label
-          Community
-        %li
-          %a{':class':"category == 'community.forums' ? 'is-active' : ''", href: 'https://forums.starpeace-project.com'} Forums
-        %li
-          %a{':class':"category == 'community.discord' ? 'is-active' : ''", href: 'https://discord.gg/TF9Bmsj', target:'_blank'} Discord Chatroom
+      ul.menu-list
+        p.menu-label Community
+        li
+          a(:class="category == 'community.forums' ? 'is-active' : ''", href='https://forums.starpeace-project.com') Forums
+        li
+          a(:class="category == 'community.discord' ? 'is-active' : ''", href='https://discord.gg/TF9Bmsj', target='_blank') Discord Chatroom
 
-        %p.menu-label
-          Information
-        %li
-          %a{':class':"category == 'information.about' ? 'is-active' : ''", href:"/information/about"} About Project
-        %li
-          %a{':class':"category == 'information.history' ? 'is-active' : ''", href:"/information/history"} History
-        %li
-          %a{':class':"category == 'information.documentation' ? 'is-active' : ''", href:'https://docs.starpeace.io'} Documentation
+        p.menu-label Information
+        li
+          a(:class="category == 'information.about' ? 'is-active' : ''", href="/information/about") About Project
+        li
+          a(:class="category == 'information.history' ? 'is-active' : ''", href="/information/history") History
+        li
+          a(:class="category == 'information.documentation' ? 'is-active' : ''", href='https://docs.starpeace.io') Documentation
 
-        %p.menu-label
-          Contribute
-        %li
-          %a{':class':"category == 'contribute.collaborate' ? 'is-active' : ''", href:"/contribute/collaborate"} Collaborate
-        %li
-          %a{':class':"category == 'contribute.ledger' ? 'is-active' : ''", href:"/contribute/ledger"} Project Ledger
+        p.menu-label Contribute
+        li
+          a(:class="category == 'contribute.collaborate' ? 'is-active' : ''", href="/contribute/collaborate") Collaborate
+        li
+          a(:class="category == 'contribute.ledger' ? 'is-active' : ''", href="/contribute/ledger") Project Ledger
 
-        %p.menu-label
-          Development
-        %li
-          %a{':class':"category == 'development.overview' ? 'is-active' : ''", href:"/development/overview"} Overview and Roadmap
-        %li
-          %a{':class':"category == 'development.client' ? 'is-active' : ''", href:"/development/client"} Client
-        %li
-          %a{':class':"category == 'development.api' ? 'is-active' : ''", href:"/development/api"} Game API
-        %li
-          %a{':class':"category == 'development.engine' ? 'is-active' : ''", href:"/development/engine"} Simulation Engine
+        p.menu-label Development
+        li
+          a(:class="category == 'development.overview' ? 'is-active' : ''", href="/development/overview") Overview and Roadmap
+        li
+          a(:class="category == 'development.client' ? 'is-active' : ''", href="/development/client") Client
+        li
+          a(:class="category == 'development.api' ? 'is-active' : ''", href="/development/api") API Design
+        li
+          a(:class="category == 'development.engine' ? 'is-active' : ''", href="/development/engine") Simulation Engine
 
-        %p.menu-label
-          FAQs
-        %li
-          %a{':class':"category == 'faq.common' ? 'is-active' : ''", href:"/faq/common"} Common Questions
+        p.menu-label API Documentation
+        li
+          a(:class="category == 'api.galaxy' ? 'is-active' : ''", href="/api/galaxy") STARPEACE Galaxy API
+
+        p.menu-label FAQs
+        li
+          a(:class="category == 'faq.common' ? 'is-active' : ''", href="/faq/common") Common Questions
 
 </template>
 
@@ -137,7 +135,7 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
 
       &.is-spio
         background-size: cover
-        background-image: url('~/assets/images/logo-starpeace-io.jpg')
+        background-image: url('~assets/images/logo-starpeace-io.jpg')
         text-align: center
 
         a
@@ -178,7 +176,7 @@ $sp-primary-extra-light: lighten($sp-primary, 30%)
           transition-property: background-size, height, max-width, width
 
       &.is-spo
-        background-image: url('~/assets/images/logo-starpeace-online.jpg')
+        background-image: url('~assets/images/logo-starpeace-online.jpg')
         background-repeat: no-repeat
         background-size: 100%
 

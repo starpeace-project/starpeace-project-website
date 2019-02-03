@@ -1,60 +1,34 @@
-<template lang='haml'>
-  %nav#primary-navbar.navbar.is-transparent{':class':'navbar_scroll_class'}
-    .navbar-brand
-      %a.navbar-item{href: '/'}
-        %img{src: '~/assets/images/project-logo-small.png'}
-      %a.navbar-item.brand-bold{href: '/'} STARPEACE
-      %a.navbar-item{href: '/'} Project
+<template lang='pug'>
+nav#primary-navbar.navbar.is-transparent(:class='navbar_scroll_class')
+  .navbar-brand
+    a.navbar-item(href='/')
+      img(src='~assets/images/project-logo-small.png')
+    a.navbar-item.brand-bold(href='/') STARPEACE
+    a.navbar-item(href='/') Project
 
-    .navbar-menu
-      .navbar-start
-        %a.navbar-item{href:'/information/about'} About Project
-        .navbar-item.has-dropdown.is-hoverable
-          %a.navbar-link{href:'/clients'} Clients
-          .navbar-dropdown.is-boxed
-            %a.navbar-item{href:'https://www.starpeace.io', target:'_blank'}
-              STARPEACE
-            %a.navbar-item{href:'http://www.starpeaceonline.com', target:'_blank'}
-              StarPeace Online
-        .navbar-item.has-dropdown.is-hoverable
-          %a.navbar-link{href:'/community'} Community
-          .navbar-dropdown.is-boxed
-            %a.navbar-item{href:'https://forums.starpeace-project.com'}
-              Forums
-            %a.navbar-item{href:'https://discord.gg/TF9Bmsj', target:'_blank'}
-              Discord Chatroom
-        %a.navbar-item{href:'/information/history'} History
+  .navbar-menu
+    .navbar-start
+      a.navbar-item(href='/information/about') About Project
+      .navbar-item.has-dropdown.is-hoverable
+        a.navbar-link(href='/clients') Clients
+        .navbar-dropdown.is-boxed
+          a.navbar-item(href='https://www.starpeace.io', target='_blank') STARPEACE
+          a.navbar-item(href='http://www.starpeaceonline.com', target='_blank') StarPeace Online
+      .navbar-item.has-dropdown.is-hoverable
+        a.navbar-link(href='/community') Community
+        .navbar-dropdown.is-boxed
+          a.navbar-item(href='https://forums.starpeace-project.com') Forums
+          a.navbar-item(href='https://discord.gg/TF9Bmsj', target:'_blank') Discord Chatroom
+      a.navbar-item(href='/information/history') History
 
-      .navbar-end
-        %a.navbar-item{href:'/contribute/collaborate'} Contribute
-        %a.navbar-item{href:'/faq/common'} FAQs
-        %a.navbar-item{href:'https://docs.starpeace.io'} Documentation
-        .navbar-item.has-dropdown.is-hoverable.language-select
-          %a.navbar-link
-            %span.flag-icon.flag-icon-gb
-          .navbar-dropdown.is-boxed
-            %a.navbar-item
-              %span.flag-icon.flag-icon-gb
-              en
-            %a.navbar-item
-              %span.flag-icon.flag-icon-fr
-              fr
-            %a.navbar-item
-              %span.flag-icon.flag-icon-br
-              br
-            %a.navbar-item
-              %span.flag-icon.flag-icon-de
-              de
-            %a.navbar-item
-              %span.flag-icon.flag-icon-it
-              it
-            %a.navbar-item
-              %span.flag-icon.flag-icon-es
-              es
-        %a.navbar-item{href:'https://twitter.com/starpeace_io', target:'_blank'}
-          %font-awesome-icon{':icon':"['fab', 'twitter']"}
-        %a.navbar-item{href:'https://github.com/starpeace-project/starpeace-project-website', target:'_blank'}
-          %font-awesome-icon{':icon':"['fab', 'github']"}
+    .navbar-end
+      a.navbar-item(href='/contribute/collaborate') Contribute
+      a.navbar-item(href='/faq/common') FAQs
+      a.navbar-item(href='https://docs.starpeace.io') Documentation
+      a.navbar-item(href='https://twitter.com/starpeace_io', target='_blank')
+        font-awesome-icon(:icon="['fab', 'twitter']")
+      a.navbar-item(href='https://github.com/starpeace-project/starpeace-project-website', target='_blank')
+        font-awesome-icon(:icon="['fab', 'github']")
 </template>
 
 <script lang='coffee'>
