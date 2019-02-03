@@ -5,7 +5,7 @@ phases:
     commands:
       - echo Entered the install phase...
       - apt-get update
-      - apt-get install default-jdk
+      - apt-get install -y default-jdk
       - npm update -g npm
       - npm install -g grunt-cli
 
