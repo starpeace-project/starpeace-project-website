@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  variables:
+    BUILD_ID: "`cat /proc/sys/kernel/random/uuid`"
+
 phases:
   install:
     commands:
@@ -24,9 +28,9 @@ phases:
 
   post_build:
     commands:
-      - echo Entered the post_build phase with CODEBUILD_BUILD_ID as $CODEBUILD_BUILD_ID...
-      - aws s3 sync dist s3://www.starpeace-project.com/$CODEBUILD_BUILD_ID
-      - aws cloudfront update-distribution --id E1IMGZSYYR5EOR --cli-input-json '{ "Origins": { "Items": [{ "OriginPath": "$CODEBUILD_BUILD_ID", "S3OriginConfig": { "OriginAccessIdentity": "" }, "Id": "S3-Website-www.starpeace-project.com.s3-website-us-east-1.amazonaws.com", "DomainName": "www.starpeace-project.com.s3-website-us-east-1.amazonaws.com" }], "Quantity": 1 } }'
+      - echo Entered the post_build phase with BUILD_ID as $BUILD_ID...
+      - aws s3 sync dist s3://www.starpeace-project.com/$BUILD_ID
+      - aws cloudfront update-distribution --id E1IMGZSYYR5EOR --cli-input-json '{ "Origins": { "Items": [{ "OriginPath": "$BUILD_ID", "S3OriginConfig": { "OriginAccessIdentity": "" }, "Id": "S3-Website-www.starpeace-project.com.s3-website-us-east-1.amazonaws.com", "DomainName": "www.starpeace-project.com.s3-website-us-east-1.amazonaws.com" }], "Quantity": 1 } }'
       - echo Build completed on `date`
 
 artifacts:
