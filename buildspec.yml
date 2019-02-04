@@ -25,8 +25,8 @@ phases:
   post_build:
     commands:
       - echo Entered the post_build phase...
-      - aws s3 sync --delete dist "s3://www.starpeace-project.com/"
-      - aws cloudfront create-invalidation --distribution-id E1IMGZSYYR5EOR --paths / /privacy/ /api/galaxy/
+      - aws s3 sync dist "s3://www.starpeace-project.com/$CODEBUILD_BUILD_ID"
+      - aws cloudfront update-distribution --id E1IMGZSYYR5EOR --distribution-config "\"Origins\": { \"Items\": [{ \"OriginPath\": \"$CODEBUILD_BUILD_ID\", \"S3OriginConfig\": { \"OriginAccessIdentity\": \"\" }, \"Id\": \"S3-Website-www.starpeace-project.com.s3-website-us-east-1.amazonaws.com\", \"DomainName\": \"www.starpeace-project.com.s3-website-us-east-1.amazonaws.com\" }], \"Quantity\": 1 }"
       - echo Build completed on `date`
 
 artifacts:
