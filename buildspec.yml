@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    BUILD_ID: "`cat /proc/sys/kernel/random/uuid`"
+    BUILD_ID: $CODEBUILD_BUILD_ID
 
 phases:
   install:
