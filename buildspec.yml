@@ -28,9 +28,9 @@ phases:
 
   post_build:
     commands:
-      - echo Entered the post_build phase with BUILD_ID as $CODEBUILD_BUILD_ID...
-      - aws s3 sync --delete dist "s3://www.starpeace-project.com/$CODEBUILD_BUILD_ID"
-      - aws cloudfront get-distribution-config --id E1IMGZSYYR5EOR
+      - echo Entered the post_build phase...
+      - aws s3 sync --delete dist "s3://www.starpeace-project.com"
+      - aws cloudfront create-invalidation --distribution-id E1IMGZSYYR5EOR --paths / /api-docs/galaxy/index.html
       - echo Build completed on `date`
 
 artifacts:

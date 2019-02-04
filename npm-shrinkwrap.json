@@ -1123,8 +1123,8 @@
       "dev": true
     },
     "@starpeace/starpeace-server-galaxy-api": {
-      "version": "git://github.com/starpeace-project/starpeace-server-galaxy-api.git#41126fcec3ae15caa7f2eb6c4b2f883675ebb361",
-      "from": "git://github.com/starpeace-project/starpeace-server-galaxy-api.git#v0.1.1",
+      "version": "git://github.com/starpeace-project/starpeace-server-galaxy-api.git#52e8bf14c816bc0e15a5779879523d0a012c7f29",
+      "from": "git://github.com/starpeace-project/starpeace-server-galaxy-api.git#v0.1.4",
       "dev": true,
       "dependencies": {
         "abbrev": {

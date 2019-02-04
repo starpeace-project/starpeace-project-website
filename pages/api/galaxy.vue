@@ -28,7 +28,12 @@ export default
 
   h1
     font-size: 1.75rem
-    margin-top: 2rem
+
+    &:not(:first-child)
+      margin-top: 2rem
+
+    &:first-child
+      margin-bottom: 1rem
 
   h2
     font-size: 1.5rem
@@ -37,7 +42,7 @@ export default
   h3
     font-size: 1.25rem
     font-weight: bold
-    margin-top: 2rem
+    margin-top: 1.5rem
 
   h4
     margin-top: 1rem
@@ -50,6 +55,7 @@ export default
 
   .app-desc
     clear: both
+    font-size: 1.15rem
 
   .param-name
     width: 100%
@@ -57,11 +63,19 @@ export default
   .license-info
     margin-top: 1rem
 
-  .model
-    margin: 0 0 0px 20px
+  ol
+    margin-left: 2.5rem
+    margin-top: .5rem
 
-  .method
-    margin-left: 20px
+  .model
+    border: 1px solid #ddd
+    margin: 0
+    margin-top: 1rem
+    padding-top: 1rem
+    padding-left: 1rem
+
+    h3
+      margin: 0
 
   .method-notes
     margin: 10px 0 20px 0
@@ -72,17 +86,21 @@ export default
     padding: 10px
     margin-bottom: 2px
 
-    &.get
+    &.method-get
       background-color: #0f6ab4
 
-    &.post
+    &.method-post
       background-color: #10a54a
 
-    &.put
+    &.method-put
       background-color: #c5862b
 
-    &.delete
+    &.method-patch
+      background-color: #b0ba27
+
+    &.method-delete
       background-color: #a41e22
+
 
     &.example
       background-color: #f3f3f3
@@ -123,12 +141,12 @@ export default
 
   .param
     width: 500px
-    padding: 10px 0 0 20px
+    padding: 0
     font-weight: bold
 
   .param-desc
     width: 700px
-    padding: 0 0 0 20px
+    padding: 0
     color: #777
 
   .param-type
@@ -148,6 +166,7 @@ export default
 
   .field-label
     padding: 0
+    margin-bottom: .5rem
     text-align: left
     clear: both
 
@@ -173,5 +192,6 @@ export default
     color: #FFF
     display: inline-block
     text-decoration: none
+
 
 </style>
