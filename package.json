@@ -4,6 +4,10 @@
   "description": "Website for STARPEACE Project: Player and Developer Community for STARPEACE: the real-time city-building economic simulation and cooperative multiplayer game",
   "author": "starpeace-project",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/starpeace-project/starpeace-project-website.git"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development PORT=11050 nuxt",
     "build": "nuxt build",
@@ -25,8 +29,10 @@
     "@nuxtjs/google-analytics": "^2.0.2",
     "@nuxtjs/moment": "^1.1.0",
     "@openapitools/openapi-generator-cli": "0.0.7-4.0.0-beta2",
+    "@starpeace/starpeace-assets": "git://github.com/starpeace-project/starpeace-assets.git",
     "@starpeace/starpeace-server-galaxy-api": "git://github.com/starpeace-project/starpeace-server-galaxy-api.git#v0.1.4",
     "bulma": "^0.7.2",
+    "bulma-slider": "^2.0.0",
     "coffee-loader": "^0.9.0",
     "coffeescript": "^2.3.2",
     "cross-env": "^5.2.0",

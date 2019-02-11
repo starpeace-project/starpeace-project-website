@@ -20,7 +20,7 @@ Looking to play STARPEACE or help contribute to a modern open-source re-build? P
 * [starpeace-website-documentation](https://github.com/starpeace-project/starpeace-website-documentation) - static and dynamic documentation website
 
 ### Server - Universe (identity management and galaxy directory)
-* starpeace-server-univerese-api - STARPEACE Univerese API interface (TBD)
+* starpeace-server-universe-api - STARPEACE Universe API interface (TBD)
 
 ### Server - Galaxy (game-play and simulation server)
 * [starpeace-server-galaxy-api](https://github.com/starpeace-project/starpeace-server-galaxy-api) - STARPEACE Galaxy API interface

@@ -63,6 +63,8 @@
         p.menu-label API Documentation
         li
           a(:class="category == 'api.galaxy' ? 'is-active' : ''", href="/api/galaxy") STARPEACE Galaxy API
+        li
+          a(:class="category == 'reference.building.financials' ? 'is-active' : ''", href="/reference/building/financials") Building Financials
 
         p.menu-label FAQs
         li

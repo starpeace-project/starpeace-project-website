@@ -1,7 +1,42 @@
 const fs = require('fs')
+const _ = require('lodash')
+const path = require('path')
 const webpack = require('webpack')
 
+const read_all_files_sync = function(dir, file_matcher) {
+  return fs.readdirSync(dir).reduce(function(files, file) {
+    if (fs.statSync(path.join(dir, file)).isDirectory()) {
+      return files.concat(read_all_files_sync(path.join(dir, file), file_matcher));
+    }
+    else {
+      return files.concat(file_matcher(file) ? [path.join(dir, file)] : []);
+    }
+  }, []);
+}
+
+const parse_to_json = function(root_dir, whitelist_patterns, blacklist_patterns) {
+  let file_matcher = function(file_path) {
+    for (let pattern of blacklist_patterns) {
+      if (file_path.endsWith(pattern)) return false;
+    }
+    for (let pattern of whitelist_patterns) {
+      if (!file_path.endsWith(pattern)) return false;
+    }
+    return true;
+  };
+
+  return _.flatten(_.map(read_all_files_sync(root_dir, file_matcher), function(path) { return JSON.parse(fs.readFileSync(path)); }));
+}
+
 const is_development = process.env.NODE_ENV === 'development'
+
+const building_definitions = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/buildings'), ['.json'], ['-image.json', '-simulation.json']);
+const building_simulation_definitions = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/buildings'), ['-simulation.json'], []);
+const company_seals = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/seals'), ['.json'], []);
+const industry_categories = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/industry'), ['industry-categories.json'], []);
+const industry_types = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/industry'), ['industry-types.json'], []);
+const resource_types = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/industry'), ['resource-types.json'], []);
+const resource_units = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/industry'), ['resource-units.json'], []);
 
 module.exports = {
   css: [
@@ -19,6 +54,15 @@ module.exports = {
       { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans|Varela+Round' }
     ]
+  },
+  env: {
+    BUILDING_DEFINITIONS: building_definitions,
+    BUILDING_SIMULATION_DEFINITIONS: building_simulation_definitions,
+    COMPANY_SEALS: company_seals,
+    INDUSTRY_CATEGORIES: industry_categories,
+    INDUSTRY_TYPES: industry_types,
+    RESOURCE_TYPES: resource_types,
+    RESOURCE_UNITS: resource_units
   },
   render: {
     resourceHints: false

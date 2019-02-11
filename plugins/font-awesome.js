@@ -1,8 +1,10 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faDiscord, faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons'
 
+import { faDiscord, faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons'
 library.add(faDiscord, faGithub, faTwitter)
 
+import { faAngleDown, faAngleRight, faAngleUp } from '@fortawesome/free-solid-svg-icons'
+library.add(faAngleDown, faAngleRight, faAngleUp)
 
 import Vue from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
