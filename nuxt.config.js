@@ -35,6 +35,8 @@ const building_simulation_definitions = parse_to_json(path.resolve('node_modules
 const company_seals = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/seals'), ['.json'], []);
 const industry_categories = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/industry'), ['industry-categories.json'], []);
 const industry_types = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/industry'), ['industry-types.json'], []);
+const inventions = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/inventions'), ['.json'], []);
+const levels = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/industry'), ['levels.json'], []);
 const resource_types = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/industry'), ['resource-types.json'], []);
 const resource_units = parse_to_json(path.resolve('node_modules/@starpeace/starpeace-assets/assets/industry'), ['resource-units.json'], []);
 
@@ -61,6 +63,8 @@ module.exports = {
     COMPANY_SEALS: company_seals,
     INDUSTRY_CATEGORIES: industry_categories,
     INDUSTRY_TYPES: industry_types,
+    INVENTIONS: inventions,
+    LEVELS: levels,
     RESOURCE_TYPES: resource_types,
     RESOURCE_UNITS: resource_units
   },

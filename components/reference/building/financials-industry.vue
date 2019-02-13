@@ -7,17 +7,20 @@
   table.table.is-fullwidth.is-bordered.is-striped.is-hoverable.financials-table(v-show='expanded')
     thead
       tr.labels-row
-        th(colspan=4)
+        th(colspan=6)
         th.has-text-right CapEx / Upfront
         th.has-text-right(colspan=7) OpEx / Hourly
         th.has-text-right(colspan=4) Hourly
         th.has-text-right(colspan=2) Monthly
       tr.labels-row
-        th.sortable(v-for='header,index in columns()', v-on:click.prevent='toggle_sort_column(index)', :class="header.align == 'right' ? 'has-text-right' : ''", :colspan="header.span ? header.span : 1")
+        th.sortable(v-for='header,index in columns()', v-on:click.prevent='toggle_sort_column(index)', :class="header.align ? 'has-text-' + header.align : ''", :colspan="header.span ? header.span : 1")
           .sort-icon(v-show='sorted_index == index')
             font-awesome-icon(:icon="['fas', 'angle-down']", v-show='sorted_direction == -1')
             font-awesome-icon(:icon="['fas', 'angle-up']", v-show='sorted_direction == 1')
-          | {{header.label}}
+          template(v-if="header.label == 'research'")
+            font-awesome-icon(:icon="['fas', 'flask']")
+          template(v-else-if='true')
+            | {{header.label}}
 
     tbody
       template(v-for='financial in sorted_simulation_financials')
@@ -25,6 +28,11 @@
           td {{building_definitions_by_id[financial.id].category}}
           td {{building_definitions_by_id[financial.id].industry_type}}
           td {{company_seals_by_id[building_definitions_by_id[financial.id].seal_id].name_short.EN}}
+          td {{level_for_id(financial.id).label.EN}}
+          td.has-text-centered
+            template(v-if="has_inventions(financial.id)")
+              span.tooltip(:data-tooltip='inventions_label(financial.id)')
+                font-awesome-icon(:icon="['fas', 'check']")
           td {{building_definitions_by_id[financial.id].name.EN}}
           td.has-text-right {{format_money(financial.capex)}}
           td.has-text-right(colspan=3) {{format_money(financial.opex_optional)}}
@@ -37,7 +45,7 @@
 
         template(v-if="selected_by_id[financial.id] ? true : false")
           tr(v-for="resource_quantity in building_simulation_definitions_by_id[financial.id].optional_inputs")
-            td(colspan=3)
+            td(colspan=5)
             td.has-text-right {{resource_quantity.resource}}
             td
             td.has-text-right {{resource_quantity.max}}
@@ -50,7 +58,7 @@
             td(colspan=2)
 
           tr(v-for="resource_quantity in building_simulation_definitions_by_id[financial.id].required_inputs")
-            td(colspan=3)
+            td(colspan=5)
             td.has-text-right {{resource_quantity.resource}}
             td
             td(colspan=3)
@@ -63,7 +71,7 @@
             td(colspan=2)
 
           tr(v-for="resource_quantity in building_simulation_definitions_by_id[financial.id].outputs")
-            td(colspan=3)
+            td(colspan=5)
             td.has-text-right {{resource_quantity.resource}}
             td
             td(colspan=3)
@@ -89,6 +97,8 @@ COLUMNS = [
   {field:'category', label:'Category'},
   {field:'industry_type', label:'Industry'},
   {field:'seal', label:'Seal'},
+  {field:'level', label:'Level'},
+  {field:'research', label:'research', align:'centered'},
   {field:'name', label:'Name'},
   {field:'capex', label:'Total ($)', align:'right'},
   {field:'opex_optional', label:'Optional ($)', align:'right', span:3},
@@ -104,6 +114,8 @@ export default
   props:
     building_definitions_by_id: Object
     company_seals_by_id: Object
+    inventions_by_id: Object
+    levels_by_id: Object
     resource_types_by_id: Object
     resource_units_by_id: Object
     resource_price_adjustment_by_id: Object
@@ -111,13 +123,14 @@ export default
     selected_industry_categories_by_id: Object
     selected_industry_types_by_id: Object
     selected_company_seals_by_id: Object
+    selected_levels_by_id: Object
 
     building_simulation_definitions: Array
 
   data: ->
     expanded: true
 
-    sorted_index: 11
+    sorted_index: 12
     sorted_direction: -1
     selected_by_id: {}
 
@@ -130,6 +143,7 @@ export default
         return false unless @selected_industry_categories_by_id[@building_definitions_by_id[financial.id].category]
         return false unless @selected_industry_types_by_id[@building_definitions_by_id[financial.id].industry_type]
         return false unless @selected_company_seals_by_id[@building_definitions_by_id[financial.id].seal_id]
+        return false unless @selected_levels_by_id[@level_for_id(financial.id).id]
         true
       )
     sorted_simulation_financials: ->
@@ -140,6 +154,8 @@ export default
         sort_by.push((financial) => @building_definitions_by_id[financial.id].industry_type)
       else if COLUMNS[@sorted_index].field == 'seal'
         sort_by.push((financial) => @company_seals_by_id[@building_definitions_by_id[financial.id]?.seal_id].name_short?.EN || 'unknown')
+      else if COLUMNS[@sorted_index].field == 'level'
+        sort_by.push((financial) => @level_for_id(financial.id).level)
       else if COLUMNS[@sorted_index].field == 'name'
         sort_by.push((financial) => @building_definitions_by_id[financial.id].name.EN)
       else
@@ -155,6 +171,16 @@ export default
 
     price_of: (resource_quantity) -> (@resource_types_by_id[resource_quantity.resource]?.price || 0) * ((@resource_price_adjustment_by_id[resource_quantity.resource] || 100) / 100)
     total_of: (resource_quantity) -> resource_quantity.max * @price_of(resource_quantity)
+
+    has_inventions: (building_id) -> (@building_definitions_by_id[building_id]?.required_invention_ids || []).length > 0
+    inventions_label: (building_id) -> _.compact(_.map(@building_definitions_by_id[building_id]?.required_invention_ids, (id) => @inventions_by_id[id]?.name?.EN)).join(', ')
+
+    level_for_id: (building_id) ->
+      max_level = @levels_by_id.APPRENTICE
+      for id in (@building_definitions_by_id[building_id].required_invention_ids || [])
+        invention_level = @inventions_by_id[id]?.properties?.level
+        max_level = @levels_by_id[invention_level] if invention_level? && @levels_by_id[invention_level]? && @levels_by_id[invention_level].level > max_level.level
+      max_level
 
     toggle_sort_column: (column_index) ->
       if @sorted_index == column_index

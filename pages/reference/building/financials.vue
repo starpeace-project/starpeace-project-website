@@ -44,17 +44,32 @@
                     :class="selected_company_seals_by_id[seal.id] ? 'is-active' : ''"
                   ) {{seal.name_short.EN}}
 
+              .navbar-item.has-dropdown.is-hoverable
+                a.navbar-link Level
+                .navbar-dropdown
+                  a.navbar-item(v-on:click.stop.prevent="toggle_filter_level('all')") All
+                  a.navbar-item(v-on:click.stop.prevent="toggle_filter_level('none')") None
+                  hr.navbar-divider
+                  a.navbar-item(
+                    v-for='level in sorted_levels',
+                    v-on:click.stop.prevent="toggle_filter_level(level.id)",
+                    :class="selected_levels_by_id[level.id] ? 'is-active' : ''"
+                  ) {{level.label.EN}}
+
       resource-type(:resource_types_by_id='resource_types_by_id', :resource_units_by_id='resource_units_by_id', :resource_price_adjustment_by_id='resource_price_adjustment_by_id')
 
       template(v-if='building_simulation_definitions_by_type.INDUSTRY && building_simulation_definitions_by_type.INDUSTRY.length')
         financial-industry(
           :building_definitions_by_id='building_definitions_by_id',
           :company_seals_by_id='company_seals_by_id',
+          :levels_by_id='levels_by_id',
+          :inventions_by_id='inventions_by_id',
           :resource_types_by_id='resource_types_by_id',
           :resource_units_by_id='resource_units_by_id',
           :selected_industry_categories_by_id='selected_industry_categories_by_id',
           :selected_industry_types_by_id='selected_industry_types_by_id',
           :selected_company_seals_by_id='selected_company_seals_by_id',
+          :selected_levels_by_id='selected_levels_by_id',
           :resource_price_adjustment_by_id='resource_price_adjustment_by_id',
           :building_simulation_definitions='building_simulation_definitions_by_type.INDUSTRY')
 
@@ -68,6 +83,8 @@ import {
   CompanySeal
   IndustryCategory
   IndustryType
+  InventionDefinition
+  Level
   ResourceType
   ResourceUnit
 } from '@starpeace/starpeace-assets'
@@ -86,18 +103,22 @@ export default
     selected_industry_categories_by_id: _.fromPairs(_.map(@industry_categories(), (category) -> [category.id, true]))
     selected_industry_types_by_id: _.fromPairs(_.map(@industry_types(), (type) -> [type.id, true]))
     selected_company_seals_by_id: _.fromPairs(_.map(@company_seals(), (seal) -> [seal.id, true]))
+    selected_levels_by_id: _.fromPairs(_.map(@levels(), (level) -> [level.id, true]))
 
     resource_price_adjustment_by_id: _.fromPairs(_.map(@resource_types(), (type) -> [type.id, 200]))
 
   computed:
     building_definitions_by_id: -> _.keyBy(@building_definitions(), 'id')
     company_seals_by_id: -> _.keyBy(@company_seals(), 'id')
+    levels_by_id: -> _.keyBy(@levels(), 'id')
+    inventions_by_id: -> _.keyBy(@inventions(), 'id')
     resource_types_by_id: -> _.keyBy(@resource_types(), 'id')
     resource_units_by_id: -> _.keyBy(@resource_units(), 'id')
 
     sorted_industry_categories: -> _.sortBy(@industry_categories(), (category) -> category.label.EN)
     sorted_industry_types: -> _.sortBy(@industry_types(), (type) -> type.label.EN)
     sorted_company_seals: -> _.sortBy(@company_seals(), (seal) -> seal.name_short.EN)
+    sorted_levels: -> _.sortBy(@levels(), (seal) -> seal.level)
 
     building_simulation_definitions_by_type: -> _.groupBy(@building_simulation_definitions(), 'type')
 
@@ -107,6 +128,8 @@ export default
     company_seals: () -> _.map(process.env.COMPANY_SEALS, CompanySeal.from_json)
     industry_categories: () -> _.map(process.env.INDUSTRY_CATEGORIES, IndustryCategory.from_json)
     industry_types: () -> _.map(process.env.INDUSTRY_TYPES, IndustryType.from_json)
+    inventions: () -> _.map(process.env.INVENTIONS, InventionDefinition.from_json)
+    levels: () -> _.map(process.env.LEVELS, Level.from_json)
     resource_types: () -> _.map(process.env.RESOURCE_TYPES, ResourceType.from_json)
     resource_units: () -> _.map(process.env.RESOURCE_UNITS, ResourceUnit.from_json)
 
@@ -125,6 +148,12 @@ export default
         @selected_company_seals_by_id[key] = seal_id == 'all' for key,value of @selected_company_seals_by_id
       else
         @selected_company_seals_by_id[seal_id] = !@selected_company_seals_by_id[seal_id]
+    toggle_filter_level: (level_id) ->
+      if level_id == 'all' || level_id == 'none'
+        @selected_levels_by_id[key] = level_id == 'all' for key,value of @selected_levels_by_id
+      else
+        @selected_levels_by_id[level_id] = !@selected_levels_by_id[level_id]
+
 
 </script>
 
