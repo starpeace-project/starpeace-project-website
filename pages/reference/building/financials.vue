@@ -105,7 +105,7 @@ export default
     selected_company_seals_by_id: _.fromPairs(_.map(@company_seals(), (seal) -> [seal.id, true]))
     selected_levels_by_id: _.fromPairs(_.map(@levels(), (level) -> [level.id, true]))
 
-    resource_price_adjustment_by_id: _.fromPairs(_.map(@resource_types(), (type) -> [type.id, 200]))
+    resource_price_adjustment_by_id: _.fromPairs(_.map(@resource_types(), (type) -> [type.id, (if type.id == 'EXECUTIVE' || type.id == 'PROFESSIONAL' || type.id == 'WORKER' then 100 else 200)]))
 
   computed:
     building_definitions_by_id: -> _.keyBy(@building_definitions(), 'id')
