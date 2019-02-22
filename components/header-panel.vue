@@ -18,7 +18,7 @@ nav#primary-navbar.navbar.is-transparent(:class='navbar_scroll_class')
         a.navbar-link(href='/community') Community
         .navbar-dropdown.is-boxed
           a.navbar-item(href='https://forums.starpeace-project.com') Forums
-          a.navbar-item(href='https://discord.gg/TF9Bmsj', target:'_blank') Discord Chatroom
+          a.navbar-item(href='https://discord.gg/TF9Bmsj', target='_blank') Discord Chatroom
       a.navbar-item(href='/information/history') History
 
     .navbar-end
