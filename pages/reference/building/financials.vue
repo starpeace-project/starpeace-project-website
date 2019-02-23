@@ -1,61 +1,62 @@
 <template lang='pug'>
 .column.column-main-body(v-cloak=true)
   .card
-    .card-content
-      h2.is-size-2 Building Financials
+    header.card-header
+      p.card-header-title.is-size-4 Building Financials
 
-      .filters-container
-        nav.navbar
-          .navbar-menu
-            .navbar-start
-              .navbar-item.has-dropdown.is-hoverable
-                a.navbar-link Category
-                .navbar-dropdown
-                  a.navbar-item(v-on:click.stop.prevent="toggle_filter_category('all')") All
-                  a.navbar-item(v-on:click.stop.prevent="toggle_filter_category('none')") None
-                  hr.navbar-divider
-                  a.navbar-item(
-                    v-for='category in sorted_industry_categories',
-                    v-on:click.stop.prevent="toggle_filter_category(category.id)",
-                    :class="selected_industry_categories_by_id[category.id] ? 'is-active' : ''"
-                  ) {{category.label.EN}}
+    .filters-container
+      nav.navbar
+        .navbar-menu
+          .navbar-start
+            .navbar-item.has-dropdown.is-hoverable
+              a.navbar-link Category
+              .navbar-dropdown
+                a.navbar-item(v-on:click.stop.prevent="toggle_filter_category('all')") All
+                a.navbar-item(v-on:click.stop.prevent="toggle_filter_category('none')") None
+                hr.navbar-divider
+                a.navbar-item(
+                  v-for='category in sorted_industry_categories',
+                  v-on:click.stop.prevent="toggle_filter_category(category.id)",
+                  :class="selected_industry_categories_by_id[category.id] ? 'is-active' : ''"
+                ) {{category.label.EN}}
 
-              .navbar-item.has-dropdown.is-hoverable
-                a.navbar-link Industry
-                .navbar-dropdown
-                  a.navbar-item(v-on:click.stop.prevent="toggle_filter_industry_type('all')") All
-                  a.navbar-item(v-on:click.stop.prevent="toggle_filter_industry_type('none')") None
-                  hr.navbar-divider
-                  a.navbar-item(
-                    v-for='industry_type in sorted_industry_types',
-                    v-on:click.stop.prevent="toggle_filter_industry_type(industry_type.id)",
-                    :class="selected_industry_types_by_id[industry_type.id] ? 'is-active' : ''"
-                  ) {{industry_type.label.EN}}
+            .navbar-item.has-dropdown.is-hoverable
+              a.navbar-link Industry
+              .navbar-dropdown
+                a.navbar-item(v-on:click.stop.prevent="toggle_filter_industry_type('all')") All
+                a.navbar-item(v-on:click.stop.prevent="toggle_filter_industry_type('none')") None
+                hr.navbar-divider
+                a.navbar-item(
+                  v-for='industry_type in sorted_industry_types',
+                  v-on:click.stop.prevent="toggle_filter_industry_type(industry_type.id)",
+                  :class="selected_industry_types_by_id[industry_type.id] ? 'is-active' : ''"
+                ) {{industry_type.label.EN}}
 
-              .navbar-item.has-dropdown.is-hoverable
-                a.navbar-link Seal
-                .navbar-dropdown
-                  a.navbar-item(v-on:click.stop.prevent="toggle_filter_seal('all')") All
-                  a.navbar-item(v-on:click.stop.prevent="toggle_filter_seal('none')") None
-                  hr.navbar-divider
-                  a.navbar-item(
-                    v-for='seal in sorted_company_seals',
-                    v-on:click.stop.prevent="toggle_filter_seal(seal.id)",
-                    :class="selected_company_seals_by_id[seal.id] ? 'is-active' : ''"
-                  ) {{seal.name_short.EN}}
+            .navbar-item.has-dropdown.is-hoverable
+              a.navbar-link Seal
+              .navbar-dropdown
+                a.navbar-item(v-on:click.stop.prevent="toggle_filter_seal('all')") All
+                a.navbar-item(v-on:click.stop.prevent="toggle_filter_seal('none')") None
+                hr.navbar-divider
+                a.navbar-item(
+                  v-for='seal in sorted_company_seals',
+                  v-on:click.stop.prevent="toggle_filter_seal(seal.id)",
+                  :class="selected_company_seals_by_id[seal.id] ? 'is-active' : ''"
+                ) {{seal.name_short.EN}}
 
-              .navbar-item.has-dropdown.is-hoverable
-                a.navbar-link Level
-                .navbar-dropdown
-                  a.navbar-item(v-on:click.stop.prevent="toggle_filter_level('all')") All
-                  a.navbar-item(v-on:click.stop.prevent="toggle_filter_level('none')") None
-                  hr.navbar-divider
-                  a.navbar-item(
-                    v-for='level in sorted_levels',
-                    v-on:click.stop.prevent="toggle_filter_level(level.id)",
-                    :class="selected_levels_by_id[level.id] ? 'is-active' : ''"
-                  ) {{level.label.EN}}
+            .navbar-item.has-dropdown.is-hoverable
+              a.navbar-link Level
+              .navbar-dropdown
+                a.navbar-item(v-on:click.stop.prevent="toggle_filter_level('all')") All
+                a.navbar-item(v-on:click.stop.prevent="toggle_filter_level('none')") None
+                hr.navbar-divider
+                a.navbar-item(
+                  v-for='level in sorted_levels',
+                  v-on:click.stop.prevent="toggle_filter_level(level.id)",
+                  :class="selected_levels_by_id[level.id] ? 'is-active' : ''"
+                ) {{level.label.EN}}
 
+    .card-content.main-card
       resource-type(:resource_types_by_id='resource_types_by_id', :resource_units_by_id='resource_units_by_id', :resource_price_adjustment_by_id='resource_price_adjustment_by_id')
 
       template(v-if='building_simulation_definitions_by_type.INDUSTRY && building_simulation_definitions_by_type.INDUSTRY.length')
@@ -64,6 +65,8 @@
           :company_seals_by_id='company_seals_by_id',
           :levels_by_id='levels_by_id',
           :inventions_by_id='inventions_by_id',
+          :industry_categories_by_id='industry_categories_by_id',
+          :industry_types_by_id='industry_types_by_id',
           :resource_types_by_id='resource_types_by_id',
           :resource_units_by_id='resource_units_by_id',
           :selected_industry_categories_by_id='selected_industry_categories_by_id',
@@ -112,6 +115,8 @@ export default
     company_seals_by_id: -> _.keyBy(@company_seals(), 'id')
     levels_by_id: -> _.keyBy(@levels(), 'id')
     inventions_by_id: -> _.keyBy(@inventions(), 'id')
+    industry_categories_by_id: -> _.keyBy(@industry_categories(), 'id')
+    industry_types_by_id: -> _.keyBy(@industry_types(), 'id')
     resource_types_by_id: -> _.keyBy(@resource_types(), 'id')
     resource_units_by_id: -> _.keyBy(@resource_units(), 'id')
 
@@ -161,7 +166,10 @@ export default
 @import '~assets/stylesheets/starpeace-variables'
 
 .filters-container
-  margin: 1rem 0
+  border-bottom: 1px solid #ddd
+  margin-bottom: 1rem
+  margin-top: 2px
+  padding: 0 1rem
 
   .navbar-item
     &.is-active
@@ -170,5 +178,8 @@ export default
 
       &:hover
         background-color: darken($sp-primary, 5%) !important
+
+.main-card
+  padding-top: 0
 
 </style>

@@ -1,6 +1,6 @@
 <template lang='pug'>
 .resource-type-section
-  h4.is-size-4(v-on:click.stop.prevent="expanded = !expanded")
+  h4.is-size-5(v-on:click.stop.prevent="expanded = !expanded")
     font-awesome-icon.toggle-icon(:icon="['fas', 'angle-down']", v-show='expanded')
     font-awesome-icon.toggle-icon(:icon="['fas', 'angle-right']", v-show='!expanded')
     | Resources
@@ -56,7 +56,7 @@ export default
 
 <style lang='sass' scoped>
 .resource-type-section
-  margin-bottom: 1rem
+  margin-bottom: 2rem
 
   h4
     border-bottom: 1px solid #ccc

@@ -1,9 +1,5 @@
 <template lang='pug'>
 .industry-section
-  h4.is-size-4(v-on:click.stop.prevent="expanded = !expanded")
-    font-awesome-icon.toggle-icon(:icon="['fas', 'angle-down']", v-show='expanded')
-    font-awesome-icon.toggle-icon(:icon="['fas', 'angle-right']", v-show='!expanded')
-    | Industry
   table.table.is-fullwidth.is-bordered.is-striped.is-hoverable.financials-table(v-show='expanded')
     thead
       tr.labels-row
@@ -12,6 +8,7 @@
         th.has-text-right(colspan=7) OpEx / Hourly
         th.has-text-right(colspan=4) Hourly
         th.has-text-right(colspan=2) Monthly
+
       tr.labels-row
         th.sortable(v-for='header,index in columns()', v-on:click.prevent='toggle_sort_column(index)', :class="header.align ? 'has-text-' + header.align : ''", :colspan="header.span ? header.span : 1")
           .sort-icon(v-show='sorted_index == index')
@@ -25,8 +22,8 @@
     tbody
       template(v-for='financial in sorted_simulation_financials')
         tr.buiding-row(v-on:click.prevent='toggle_row(financial.id)', :class="selected_by_id[financial.id] ? 'is-selected' : ''")
-          td {{building_definitions_by_id[financial.id].category}}
-          td {{building_definitions_by_id[financial.id].industry_type}}
+          td {{industry_categories_by_id[building_definitions_by_id[financial.id].category].label.EN}}
+          td {{industry_types_by_id[building_definitions_by_id[financial.id].industry_type].label.EN}}
           td {{company_seals_by_id[building_definitions_by_id[financial.id].seal_id].name_short.EN}}
           td {{level_for_id(financial.id).label.EN}}
           td.has-text-centered
@@ -34,23 +31,23 @@
               span.tooltip(:data-tooltip='inventions_label(financial.id)')
                 font-awesome-icon(:icon="['fas', 'check']")
           td {{building_definitions_by_id[financial.id].name.EN}}
-          td.has-text-right {{format_money(financial.capex)}}
-          td.has-text-right(colspan=3) {{format_money(financial.opex_optional)}}
-          td.has-text-right(colspan=3) {{format_money(financial.opex_required)}}
-          td.has-text-right {{format_money(financial.opex)}}
-          td.has-text-right(colspan=3) {{format_money(financial.income)}}
-          td.has-text-right {{format_money(financial.profit)}}
-          td.has-text-right {{format_money(financial.profit_month)}}
+          td.has-text-right ${{format_money(financial.capex)}}
+          td.has-text-right(colspan=3) ${{format_money(financial.opex_optional)}}
+          td.has-text-right(colspan=3) ${{format_money(financial.opex_required)}}
+          td.has-text-right ${{format_money(financial.opex)}}
+          td.has-text-right(colspan=3) ${{format_money(financial.income)}}
+          td.has-text-right ${{format_money(financial.profit)}}
+          td.has-text-right ${{format_money(financial.profit_month)}}
           td.has-text-right {{financial.profit < 0 ? 'never' : financial.roi_month}}
 
         template(v-if="selected_by_id[financial.id] ? true : false")
           tr(v-for="resource_quantity in building_simulation_definitions_by_id[financial.id].optional_inputs")
             td(colspan=5)
-            td.has-text-right {{resource_quantity.resource}}
+            td.has-text-right {{resource_types_by_id[resource_quantity.resource].label_plural.EN}}
             td
-            td.has-text-right {{resource_quantity.max}}
-            td.has-text-right {{format_money(price_of(resource_quantity), 2)}}
-            td.has-text-right {{format_money(total_of(resource_quantity))}}
+            td.has-text-right {{resource_quantity.max}} {{resource_units_by_id[resource_types_by_id[resource_quantity.resource].unit_id].label_plural.EN}}
+            td.has-text-right ${{format_money(price_of(resource_quantity), 2)}}
+            td.has-text-right ${{format_money(total_of(resource_quantity))}}
             td(colspan=3)
             td
             td(colspan=3)
@@ -59,12 +56,12 @@
 
           tr(v-for="resource_quantity in building_simulation_definitions_by_id[financial.id].required_inputs")
             td(colspan=5)
-            td.has-text-right {{resource_quantity.resource}}
+            td.has-text-right {{resource_types_by_id[resource_quantity.resource].label_plural.EN}}
             td
             td(colspan=3)
-            td.has-text-right {{resource_quantity.max}}
-            td.has-text-right {{format_money(price_of(resource_quantity), 2)}}
-            td.has-text-right {{format_money(total_of(resource_quantity))}}
+            td.has-text-right {{resource_quantity.max}} {{resource_units_by_id[resource_types_by_id[resource_quantity.resource].unit_id].label_plural.EN}}
+            td.has-text-right ${{format_money(price_of(resource_quantity), 2)}}
+            td.has-text-right ${{format_money(total_of(resource_quantity))}}
             td
             td(colspan=3)
             td
@@ -72,14 +69,14 @@
 
           tr(v-for="resource_quantity in building_simulation_definitions_by_id[financial.id].outputs")
             td(colspan=5)
-            td.has-text-right {{resource_quantity.resource}}
+            td.has-text-right {{resource_types_by_id[resource_quantity.resource].label_plural.EN}}
             td
             td(colspan=3)
             td(colspan=3)
             td
-            td.has-text-right {{resource_quantity.max}}
-            td.has-text-right {{format_money(price_of(resource_quantity), 2)}}
-            td.has-text-right {{format_money(total_of(resource_quantity))}}
+            td.has-text-right {{resource_quantity.max}} {{resource_units_by_id[resource_types_by_id[resource_quantity.resource].unit_id].label_plural.EN}}
+            td.has-text-right ${{format_money(price_of(resource_quantity), 2)}}
+            td.has-text-right ${{format_money(total_of(resource_quantity))}}
             td
             td
             td
@@ -116,6 +113,10 @@ export default
     company_seals_by_id: Object
     inventions_by_id: Object
     levels_by_id: Object
+
+    industry_categories_by_id: Object
+    industry_types_by_id: Object
+
     resource_types_by_id: Object
     resource_units_by_id: Object
     resource_price_adjustment_by_id: Object
@@ -130,7 +131,7 @@ export default
   data: ->
     expanded: true
 
-    sorted_index: 12
+    sorted_index: 13
     sorted_direction: -1
     selected_by_id: {}
 
@@ -149,9 +150,9 @@ export default
     sorted_simulation_financials: ->
       sort_by = []
       if COLUMNS[@sorted_index].field == 'category'
-        sort_by.push((financial) => @building_definitions_by_id[financial.id].category)
+        sort_by.push((financial) => @industry_categories_by_id[@building_definitions_by_id[financial.id].category].label.EN)
       else if COLUMNS[@sorted_index].field == 'industry_type'
-        sort_by.push((financial) => @building_definitions_by_id[financial.id].industry_type)
+        sort_by.push((financial) => @industry_types_by_id[@building_definitions_by_id[financial.id].industry_type].label.EN)
       else if COLUMNS[@sorted_index].field == 'seal'
         sort_by.push((financial) => @company_seals_by_id[@building_definitions_by_id[financial.id]?.seal_id].name_short?.EN || 'unknown')
       else if COLUMNS[@sorted_index].field == 'level'
