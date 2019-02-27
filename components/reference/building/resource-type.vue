@@ -10,8 +10,8 @@
         th Name
         th Unit
         th.has-text-right Price
-        th.has-text-centered(colspan=2) Adjustment (%)
-        th.has-text-right Adjusted Price
+        th.has-text-centered(colspan=3) Cost Adjustment (%)
+        th.has-text-centered(colspan=3) Sale Adjustment (%)
 
     tbody
       tr(v-for='resource in sorted_resource_types')
@@ -19,10 +19,16 @@
         td {{resource.unit_id}}
         td.has-text-right {{format_money(resource.price, 2)}}
         td.price-scale-slider
-          input.slider.is-fullwidth(type='range', step='1', min='1', max='500', v-model='resource_price_adjustment_by_id[resource.id]')
+          input.slider.is-fullwidth(type='range', step='1', min='1', max='500', v-model='resource_price_cost_adjustment_by_id[resource.id]')
         td.price-scale-text
-          input.is-fullwidth(type='number', step='1', min='1', max='500', v-model='resource_price_adjustment_by_id[resource.id]')
-        td.has-text-right {{format_money((resource_price_adjustment_by_id[resource.id] / 100) * resource.price, 2)}}
+          input.is-fullwidth(type='number', step='1', min='1', max='500', v-model='resource_price_cost_adjustment_by_id[resource.id]')
+        td.has-text-right {{format_money((resource_price_cost_adjustment_by_id[resource.id] / 100) * resource.price, 2)}}
+        td.price-scale-slider
+          input.slider.is-fullwidth(type='range', step='1', min='1', max='500', v-model='resource_price_sale_adjustment_by_id[resource.id]')
+        td.price-scale-text
+          input.is-fullwidth(type='number', step='1', min='1', max='500', v-model='resource_price_sale_adjustment_by_id[resource.id]')
+        td.has-text-right {{format_money((resource_price_sale_adjustment_by_id[resource.id] / 100) * resource.price, 2)}}
+
 
 </template>
 
@@ -37,7 +43,8 @@ export default
   props:
     resource_types_by_id: Object
     resource_units_by_id: Object
-    resource_price_adjustment_by_id: Object
+    resource_price_cost_adjustment_by_id: Object
+    resource_price_sale_adjustment_by_id: Object
 
   data: ->
     expanded: false

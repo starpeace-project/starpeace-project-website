@@ -57,24 +57,30 @@
                 ) {{level.label.EN}}
 
     .card-content.main-card
-      resource-type(:resource_types_by_id='resource_types_by_id', :resource_units_by_id='resource_units_by_id', :resource_price_adjustment_by_id='resource_price_adjustment_by_id')
+      resource-type(
+        :resource_types_by_id='resource_types_by_id',
+        :resource_units_by_id='resource_units_by_id',
+        :resource_price_cost_adjustment_by_id='resource_price_cost_adjustment_by_id',
+        :resource_price_sale_adjustment_by_id='resource_price_sale_adjustment_by_id'
+      )
 
-      template(v-if='building_simulation_definitions_by_type.INDUSTRY && building_simulation_definitions_by_type.INDUSTRY.length')
-        financial-industry(
-          :building_definitions_by_id='building_definitions_by_id',
-          :company_seals_by_id='company_seals_by_id',
-          :levels_by_id='levels_by_id',
-          :inventions_by_id='inventions_by_id',
-          :industry_categories_by_id='industry_categories_by_id',
-          :industry_types_by_id='industry_types_by_id',
-          :resource_types_by_id='resource_types_by_id',
-          :resource_units_by_id='resource_units_by_id',
-          :selected_industry_categories_by_id='selected_industry_categories_by_id',
-          :selected_industry_types_by_id='selected_industry_types_by_id',
-          :selected_company_seals_by_id='selected_company_seals_by_id',
-          :selected_levels_by_id='selected_levels_by_id',
-          :resource_price_adjustment_by_id='resource_price_adjustment_by_id',
-          :building_simulation_definitions='building_simulation_definitions_by_type.INDUSTRY')
+      financial-industry(
+        :building_definitions_by_id='building_definitions_by_id',
+        :company_seals_by_id='company_seals_by_id',
+        :levels_by_id='levels_by_id',
+        :inventions_by_id='inventions_by_id',
+        :industry_categories_by_id='industry_categories_by_id',
+        :industry_types_by_id='industry_types_by_id',
+        :resource_types_by_id='resource_types_by_id',
+        :resource_units_by_id='resource_units_by_id',
+        :selected_industry_categories_by_id='selected_industry_categories_by_id',
+        :selected_industry_types_by_id='selected_industry_types_by_id',
+        :selected_company_seals_by_id='selected_company_seals_by_id',
+        :selected_levels_by_id='selected_levels_by_id',
+        :resource_price_cost_adjustment_by_id='resource_price_cost_adjustment_by_id',
+        :resource_price_sale_adjustment_by_id='resource_price_sale_adjustment_by_id',
+        :building_simulation_definitions='building_simulation_definitions()'
+      )
 
 </template>
 
@@ -82,7 +88,7 @@
 import _ from 'lodash'
 import {
   BuildingDefinition
-  BuildingSimulationDefinition
+  BuildingSimulationDefinitionParser
   CompanySeal
   IndustryCategory
   IndustryType
@@ -108,7 +114,8 @@ export default
     selected_company_seals_by_id: _.fromPairs(_.map(@company_seals(), (seal) -> [seal.id, true]))
     selected_levels_by_id: _.fromPairs(_.map(@levels(), (level) -> [level.id, true]))
 
-    resource_price_adjustment_by_id: _.fromPairs(_.map(@resource_types(), (type) -> [type.id, (if type.id == 'EXECUTIVE' || type.id == 'PROFESSIONAL' || type.id == 'WORKER' then 100 else 200)]))
+    resource_price_cost_adjustment_by_id: _.fromPairs(_.map(@resource_types(), (type) -> [type.id, (if type.id == 'EXECUTIVE' || type.id == 'PROFESSIONAL' || type.id == 'WORKER' then 100 else 200)]))
+    resource_price_sale_adjustment_by_id: _.fromPairs(_.map(@resource_types(), (type) -> [type.id, (if type.id == 'EXECUTIVE' || type.id == 'PROFESSIONAL' || type.id == 'WORKER' then 200 else 400)]))
 
   computed:
     building_definitions_by_id: -> _.keyBy(@building_definitions(), 'id')
@@ -125,11 +132,9 @@ export default
     sorted_company_seals: -> _.sortBy(@company_seals(), (seal) -> seal.name_short.EN)
     sorted_levels: -> _.sortBy(@levels(), (seal) -> seal.level)
 
-    building_simulation_definitions_by_type: -> _.groupBy(@building_simulation_definitions(), 'type')
-
   methods:
     building_definitions: () -> _.map(process.env.BUILDING_DEFINITIONS, BuildingDefinition.from_json)
-    building_simulation_definitions: () -> _.map(process.env.BUILDING_SIMULATION_DEFINITIONS, BuildingSimulationDefinition.from_json)
+    building_simulation_definitions: () -> _.map(process.env.BUILDING_SIMULATION_DEFINITIONS, BuildingSimulationDefinitionParser.from_json)
     company_seals: () -> _.map(process.env.COMPANY_SEALS, CompanySeal.from_json)
     industry_categories: () -> _.map(process.env.INDUSTRY_CATEGORIES, IndustryCategory.from_json)
     industry_types: () -> _.map(process.env.INDUSTRY_TYPES, IndustryType.from_json)

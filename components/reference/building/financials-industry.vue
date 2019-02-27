@@ -1,12 +1,18 @@
 <template lang='pug'>
 .industry-section
-  table.table.is-fullwidth.is-bordered.is-striped.is-hoverable.financials-table(v-show='expanded')
+  table.table.is-fullwidth.is-bordered.is-striped.is-hoverable.financials-table
     thead
       tr.labels-row
         th(colspan=6)
-        th.has-text-right CapEx / Upfront
-        th.has-text-right(colspan=7) OpEx / Hourly
-        th.has-text-right(colspan=4) Hourly
+        th.has-text-right
+          span.tooltip(data-tooltip='Capital Expenditure') CapEx
+          |
+          | / Upfront
+        th.has-text-right(colspan=4)
+          span.tooltip(data-tooltip='Operational Expenditure') OpEx
+          |
+          | / Hourly
+        th.has-text-right(colspan=2) Revenue / Hourly
         th.has-text-right(colspan=2) Monthly
 
       tr.labels-row
@@ -31,55 +37,233 @@
               span.tooltip(:data-tooltip='inventions_label(financial.id)')
                 font-awesome-icon(:icon="['fas', 'check']")
           td {{building_definitions_by_id[financial.id].name.EN}}
+
           td.has-text-right ${{format_money(financial.capex)}}
-          td.has-text-right(colspan=3) ${{format_money(financial.opex_optional)}}
-          td.has-text-right(colspan=3) ${{format_money(financial.opex_required)}}
+          td.has-text-right ${{format_money(financial.opex_operations)}}
+          td.has-text-right ${{format_money(financial.opex_labor)}}
+          td.has-text-right ${{format_money(financial.opex_supplies)}}
           td.has-text-right ${{format_money(financial.opex)}}
-          td.has-text-right(colspan=3) ${{format_money(financial.income)}}
+          td.has-text-right ${{format_money(financial.income)}}
           td.has-text-right ${{format_money(financial.profit)}}
           td.has-text-right ${{format_money(financial.profit_month)}}
           td.has-text-right {{financial.profit < 0 ? 'never' : financial.roi_month}}
 
         template(v-if="selected_by_id[financial.id] ? true : false")
-          tr(v-for="resource_quantity in building_simulation_definitions_by_id[financial.id].optional_inputs")
-            td(colspan=5)
-            td.has-text-right {{resource_types_by_id[resource_quantity.resource].label_plural.EN}}
-            td
-            td.has-text-right {{resource_quantity.max}} {{resource_units_by_id[resource_types_by_id[resource_quantity.resource].unit_id].label_plural.EN}}
-            td.has-text-right ${{format_money(price_of(resource_quantity), 2)}}
-            td.has-text-right ${{format_money(total_of(resource_quantity))}}
-            td(colspan=3)
-            td
-            td(colspan=3)
-            td
-            td(colspan=2)
+          tr
+            td.is-paddingless(colspan=15)
+              .columns.is-paddingless.is-marginless
 
-          tr(v-for="resource_quantity in building_simulation_definitions_by_id[financial.id].required_inputs")
-            td(colspan=5)
-            td.has-text-right {{resource_types_by_id[resource_quantity.resource].label_plural.EN}}
-            td
-            td(colspan=3)
-            td.has-text-right {{resource_quantity.max}} {{resource_units_by_id[resource_types_by_id[resource_quantity.resource].unit_id].label_plural.EN}}
-            td.has-text-right ${{format_money(price_of(resource_quantity), 2)}}
-            td.has-text-right ${{format_money(total_of(resource_quantity))}}
-            td
-            td(colspan=3)
-            td
-            td(colspan=2)
+                .column.is-narrow(v-if="!!building_simulation_definitions_by_id[financial.id].construction_inputs")
+                  .card
+                    header.card-header
+                      p.card-header-title Construction Expenses
+                    table.table.is-fullwidth.is-borderless
+                      tbody
+                        tr(v-for="input in building_simulation_definitions_by_id[financial.id].construction_inputs")
+                          td {{resource_types_by_id[input.resource].label_plural.EN}}
+                          td {{input.quantity}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                          td.has-text-right ${{format_money(input.quantity * cost_price_of(input.resource))}}
 
-          tr(v-for="resource_quantity in building_simulation_definitions_by_id[financial.id].outputs")
-            td(colspan=5)
-            td.has-text-right {{resource_types_by_id[resource_quantity.resource].label_plural.EN}}
-            td
-            td(colspan=3)
-            td(colspan=3)
-            td
-            td.has-text-right {{resource_quantity.max}} {{resource_units_by_id[resource_types_by_id[resource_quantity.resource].unit_id].label_plural.EN}}
-            td.has-text-right ${{format_money(price_of(resource_quantity), 2)}}
-            td.has-text-right ${{format_money(total_of(resource_quantity))}}
-            td
-            td
-            td
+                template(v-if="building_simulation_definitions_by_id[financial.id].type == 'FACTORY'")
+                  .column
+                    .card(v-for='stage in building_simulation_definitions_by_id[financial.id].stages')
+                      header.card-header
+                        p.card-header-title Stage {{stage.index}}
+                        p.card-header-icon
+                          template(v-if='stage.duration == 1')
+                            | 1 hour
+                          template(v-else)
+                            | {{stage.duration}} hours
+                            template(v-if='stage.duration > 672')
+                              |
+                              | ({{stage.duration / 672}} months)
+                            template(v-else-if='stage.duration == 672')
+                              |
+                              | (1 month)
+                            template(v-else-if='stage.duration > 168')
+                              |
+                              | ({{stage.duration / 168}} weeks)
+                            template(v-else-if='stage.duration == 168')
+                              |
+                              | (1 week)
+                            template(v-else-if='stage.duration > 24')
+                              |
+                              | ({{stage.duration / 24}} days)
+                            template(v-else-if='stage.duration == 24')
+                              |
+                              | (1 day)
+
+                      .card-content.columns.is-paddingless.is-marginless
+                        .column
+                          .card
+                            header.card-header
+                              p.card-header-title Operations Expenses
+                            template(v-if='!stage.operations.length')
+                              .card-content.is-paddingless
+                                .content.none-container none
+                            template(v-else)
+                              table.table.is-fullwidth.is-borderless
+                                tbody
+                                  tr(v-for="input in stage.operations")
+                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
+                                    td {{input.max_velocity}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+
+                        .column
+                          .card
+                            header.card-header
+                              p.card-header-title Labor Expenses
+                            template(v-if='!stage.labor.length')
+                              .card-content.is-paddingless
+                                .content.none-container none
+                            template(v-else)
+                              table.table.is-fullwidth.is-borderless
+                                tbody
+                                  tr(v-for="input in stage.labor")
+                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
+                                    td {{input.max_velocity}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+
+                        .column
+                          .card
+                            header.card-header
+                              p.card-header-title Production Expenses
+                            template(v-if='!stage.inputs.length')
+                              .card-content.is-paddingless
+                                .content.none-container none
+                            template(v-else)
+                              table.table.is-fullwidth.is-borderless
+                                tbody
+                                  tr(v-for="input in stage.inputs")
+                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
+                                    td {{input.max_velocity}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+
+                        .column
+                          .card
+                            header.card-header
+                              p.card-header-title Production Revenue
+                            template(v-if='!stage.outputs.length')
+                              .card-content.is-paddingless
+                                .content.none-container none
+                            template(v-else)
+                              table.table.is-fullwidth.is-borderless
+                                tbody
+                                  tr(v-for="input in stage.outputs")
+                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
+                                    td {{input.max_velocity}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                                    td.has-text-right ${{format_money(input.max_velocity * sale_price_of(input.resource))}}
+
+                template(v-if="building_simulation_definitions_by_id[financial.id].type == 'STORAGE'")
+                  .column.is-narrow
+                    .card
+                      header.card-header
+                        p.card-header-title Operations Expenses
+                      template(v-if='!building_simulation_definitions_by_id[financial.id].operations || !building_simulation_definitions_by_id[financial.id].operations.length')
+                        .card-content.is-paddingless
+                          .content.none-container none
+                      template(v-else)
+                        table.table.is-fullwidth.is-borderless
+                          tbody
+                            tr(v-for="input in building_simulation_definitions_by_id[financial.id].operations")
+                              td {{resource_types_by_id[input.resource].label_plural.EN}}
+                              td {{input.max_velocity}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+
+                  .column.is-narrow
+                    .card
+                      header.card-header
+                        p.card-header-title Labor Expenses
+                      template(v-if='!building_simulation_definitions_by_id[financial.id].labor.length')
+                        .card-content.is-paddingless
+                          .content.none-container none
+                      template(v-else)
+                        table.table.is-fullwidth.is-borderless
+                          tbody
+                            tr(v-for="input in building_simulation_definitions_by_id[financial.id].labor")
+                              td {{resource_types_by_id[input.resource].label_plural.EN}}
+                              td {{input.max_velocity}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+
+                  .column
+                    .card
+                      header.card-header
+                        p.card-header-title Storage
+                      template(v-if='!building_simulation_definitions_by_id[financial.id].storage.length')
+                        .card-content.is-paddingless
+                          .content.none-container none
+                      template(v-else)
+                        table.table.is-fullwidth.is-borderless
+                          tbody
+                            tr(v-for="input in building_simulation_definitions_by_id[financial.id].storage")
+                              td {{resource_types_by_id[input.resource].label_plural.EN}}
+                              td {{input.max}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+
+                template(v-if="building_simulation_definitions_by_id[financial.id].type == 'STORE'")
+                  .column.is-narrow
+                    .card
+                      header.card-header
+                        p.card-header-title Operations Expenses
+                      template(v-if='!building_simulation_definitions_by_id[financial.id].operations.length')
+                        .card-content.is-paddingless
+                          .content.none-container none
+                      template(v-else)
+                        table.table.is-fullwidth.is-borderless
+                          tbody
+                            tr(v-for="input in building_simulation_definitions_by_id[financial.id].operations")
+                              td {{resource_types_by_id[input.resource].label_plural.EN}}
+                              td {{input.max_velocity}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+
+                  .column.is-narrow
+                    .card
+                      header.card-header
+                        p.card-header-title Labor Expenses
+                      template(v-if='!building_simulation_definitions_by_id[financial.id].labor.length')
+                        .card-content.is-paddingless
+                          .content.none-container none
+                      template(v-else)
+                        table.table.is-fullwidth.is-borderless
+                          tbody
+                            tr(v-for="input in building_simulation_definitions_by_id[financial.id].labor")
+                              td {{resource_types_by_id[input.resource].label_plural.EN}}
+                              td {{input.max_velocity}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+
+                  .column
+                    .card
+                      header.card-header
+                        p.card-header-title Products
+                      .card-content.columns.is-paddingless.is-marginless(v-for="product in building_simulation_definitions_by_id[financial.id].products")
+                        .column
+                          .card
+                            header.card-header
+                              p.card-header-title Expenses
+                            template(v-if='!product.inputs.length')
+                              .card-content.is-paddingless
+                                .content.none-container none
+                            template(v-else)
+                              table.table.is-fullwidth.is-borderless
+                                tbody
+                                  tr(v-for="input in product.inputs")
+                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
+                                    td {{input.max_velocity}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+
+                        .column
+                          .card
+                            header.card-header
+                              p.card-header-title Revenue
+                            template(v-if='!product.outputs.length')
+                              .card-content.is-paddingless
+                                .content.none-container none
+                            template(v-else)
+                              table.table.is-fullwidth.is-borderless
+                                tbody
+                                  tr(v-for="input in product.outputs")
+                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
+                                    td {{input.max_velocity}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                                    td.has-text-right ${{format_money(input.max_velocity * sale_price_of(input.resource))}}
 
 </template>
 
@@ -98,10 +282,11 @@ COLUMNS = [
   {field:'research', label:'research', align:'centered'},
   {field:'name', label:'Name'},
   {field:'capex', label:'Total ($)', align:'right'},
-  {field:'opex_optional', label:'Optional ($)', align:'right', span:3},
-  {field:'opex_required', label:'Required ($)', align:'right', span:3},
+  {field:'opex_operations', label:'Operations ($)', align:'right'},
+  {field:'opex_labor', label:'Labor ($)', align:'right'},
+  {field:'opex_supplies', label:'Supplies ($)', align:'right'},
   {field:'opex', label:'Total ($)', align:'right'},
-  {field:'income', label:'Income ($)', align:'right', span:3},
+  {field:'income', label:'Income ($)', align:'right'},
   {field:'profit', label:'Profit ($)', align:'right'},
   {field:'profit_month', label:'Profit ($)', align:'right'},
   {field:'roi_month', label:'ROI', align:'right'}
@@ -119,7 +304,8 @@ export default
 
     resource_types_by_id: Object
     resource_units_by_id: Object
-    resource_price_adjustment_by_id: Object
+    resource_price_cost_adjustment_by_id: Object
+    resource_price_sale_adjustment_by_id: Object
 
     selected_industry_categories_by_id: Object
     selected_industry_types_by_id: Object
@@ -129,15 +315,13 @@ export default
     building_simulation_definitions: Array
 
   data: ->
-    expanded: true
-
     sorted_index: 13
     sorted_direction: -1
     selected_by_id: {}
 
   computed:
     building_simulation_definitions_by_id: -> _.keyBy(@building_simulation_definitions, 'id')
-    financials: -> _.map(@building_simulation_definitions, (definition) => Financials.from_definition(@resource_types_by_id, @resource_units_by_id, @resource_price_adjustment_by_id, definition))
+    financials: -> _.map(@building_simulation_definitions, (definition) => Financials.from_definition(@resource_types_by_id, @resource_units_by_id, @resource_price_cost_adjustment_by_id, @resource_price_sale_adjustment_by_id, definition))
 
     filtered_financials: ->
       _.filter(@financials, (financial) =>
@@ -170,8 +354,8 @@ export default
     columns: () -> COLUMNS
     format_money: Utils.format_money
 
-    price_of: (resource_quantity) -> (@resource_types_by_id[resource_quantity.resource]?.price || 0) * ((@resource_price_adjustment_by_id[resource_quantity.resource] || 100) / 100)
-    total_of: (resource_quantity) -> resource_quantity.max * @price_of(resource_quantity)
+    cost_price_of: (resource_id) -> (@resource_types_by_id[resource_id]?.price || 0) * ((@resource_price_cost_adjustment_by_id[resource_id] || 100) / 100)
+    sale_price_of: (resource_id) -> (@resource_types_by_id[resource_id]?.price || 0) * ((@resource_price_sale_adjustment_by_id[resource_id] || 100) / 100)
 
     has_inventions: (building_id) -> (@building_definitions_by_id[building_id]?.required_invention_ids || []).length > 0
     inventions_label: (building_id) -> _.compact(_.map(@building_definitions_by_id[building_id]?.required_invention_ids, (id) => @inventions_by_id[id]?.name?.EN)).join(', ')
@@ -208,6 +392,9 @@ export default
     th
       user-select: none
 
+      .tooltip
+        border-bottom: 1px dashed #777
+
       &.sortable
         cursor: pointer
 
@@ -227,5 +414,8 @@ export default
 
         &:not(.is-selected)
           cursor: zoom-in
+
+.none-container
+  padding: 0.5em 0.75em
 
 </style>
