@@ -77,6 +77,7 @@
         :selected_industry_types_by_id='selected_industry_types_by_id',
         :selected_company_seals_by_id='selected_company_seals_by_id',
         :selected_levels_by_id='selected_levels_by_id',
+        :max_levels_by_id='max_levels_by_id',
         :resource_price_cost_adjustment_by_id='resource_price_cost_adjustment_by_id',
         :resource_price_sale_adjustment_by_id='resource_price_sale_adjustment_by_id',
         :building_simulation_definitions='building_simulation_definitions()'
@@ -114,6 +115,7 @@ export default
     selected_company_seals_by_id: _.fromPairs(_.map(@company_seals(), (seal) -> [seal.id, true]))
     selected_levels_by_id: _.fromPairs(_.map(@levels(), (level) -> [level.id, true]))
 
+    max_levels_by_id: _.fromPairs(_.map(@building_simulation_definitions(), (definition) -> [definition.id, definition.max_level || 1]))
     resource_price_cost_adjustment_by_id: _.fromPairs(_.map(@resource_types(), (type) -> [type.id, (if type.id == 'EXECUTIVE' || type.id == 'PROFESSIONAL' || type.id == 'WORKER' then 100 else 200)]))
     resource_price_sale_adjustment_by_id: _.fromPairs(_.map(@resource_types(), (type) -> [type.id, (if type.id == 'EXECUTIVE' || type.id == 'PROFESSIONAL' || type.id == 'WORKER' then 200 else 400)]))
 
