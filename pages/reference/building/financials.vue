@@ -80,6 +80,7 @@
         :max_levels_by_id='max_levels_by_id',
         :resource_price_cost_adjustment_by_id='resource_price_cost_adjustment_by_id',
         :resource_price_sale_adjustment_by_id='resource_price_sale_adjustment_by_id',
+        :demand_by_id_type='demand_by_id_type',
         :building_simulation_definitions='building_simulation_definitions()'
       )
 
@@ -102,6 +103,11 @@ import {
 import FinancialsIndustryComponent from '~/components/reference/building/financials-industry.vue'
 import ResourceTypeComponent from '~/components/reference/building/resource-type.vue'
 
+demand_for_resource = (resource_type) ->
+  return 10 if resource_type == 'AUTOMOBILE'
+  return 5 if resource_type == 'FUNERAL_SERVICE'
+  100
+
 export default
   category: 'reference.building.financials'
 
@@ -116,6 +122,12 @@ export default
     selected_levels_by_id: _.fromPairs(_.map(@levels(), (level) -> [level.id, true]))
 
     max_levels_by_id: _.fromPairs(_.map(@building_simulation_definitions(), (definition) -> [definition.id, definition.max_level || 1]))
+    demand_by_id_type:  _.fromPairs(_.compact(_.flatMap(@building_simulation_definitions(), (definition) ->
+      return null unless definition.type == 'STORE'
+      _.flatMap(definition.products, (product) ->
+        _.map(product.outputs, (output) -> ["#{definition.id}-#{output.resource}", demand_for_resource(output.resource)])
+      )
+    )))
     resource_price_cost_adjustment_by_id: _.fromPairs(_.map(@resource_types(), (type) -> [type.id, (if type.id == 'EXECUTIVE' || type.id == 'PROFESSIONAL' || type.id == 'WORKER' then 100 else 200)]))
     resource_price_sale_adjustment_by_id: _.fromPairs(_.map(@resource_types(), (type) -> [type.id, (if type.id == 'EXECUTIVE' || type.id == 'PROFESSIONAL' || type.id == 'WORKER' then 200 else 400)]))
 

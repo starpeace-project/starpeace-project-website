@@ -6,7 +6,7 @@ export default class Financials
     Object.defineProperty @, 'opex', get: -> @opex_labor + @opex_operations + @opex_supplies
     Object.defineProperty @, 'profit', get: -> @income - @opex
     Object.defineProperty @, 'profit_month', get: -> @profit * 30
-    Object.defineProperty @, 'roi_month', get: -> if @profit_month < 0 then Number.MAX_VALUE else Math.ceil(@capex / @profit_month)
+    Object.defineProperty @, 'roi_month', get: -> if @profit_month <= 0 then Number.MAX_VALUE else Math.ceil(@capex / @profit_month)
 
   @from_definition: (resource_types_by_id, resource_units_by_id, level_by_id, resource_price_cost_adjustment_by_id, resource_price_sale_adjustment_by_id, definition) ->
     cost_price_of = (resource_id) -> (resource_types_by_id[resource_id]?.price || 0) * ((resource_price_cost_adjustment_by_id[resource_id] || 100) / 100)
@@ -19,6 +19,10 @@ export default class Financials
     financials.id = definition.id
 
     financials.capex = _.reduce(definition.construction_inputs, ((result, value) -> result + value.quantity * cost_price_of(value.resource) * half_level_adjustment), 0)
+    financials.opex_labor = 0
+    financials.opex_operations = 0
+    financials.opex_supplies = 0
+    financials.income = 0
 
     if definition.type == 'FACTORY'
       total_duration = 0

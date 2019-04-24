@@ -22,7 +22,6 @@ nav#primary-navbar.navbar.is-transparent(:class='navbar_scroll_class')
       a.navbar-item(href='/information/history') History
 
     .navbar-end
-      a.navbar-item(href='/contribute/collaborate') Contribute
       a.navbar-item(href='/faq/common') FAQs
       a.navbar-item(href='https://docs.starpeace.io') Documentation
       a.navbar-item(href='https://twitter.com/starpeace_io', target='_blank')
@@ -68,6 +67,7 @@ $sp-primary-bg-extra-light: lighten($sp-primary-bg-light, 20%)
 nav
   border-bottom: 2px solid $sp-primary-bg
   font-size: 1.25rem
+  z-index: 2000
 
   &.floating-navbar
     +desktop

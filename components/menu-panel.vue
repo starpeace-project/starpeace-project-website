@@ -44,12 +44,6 @@
         li
           a(:class="category == 'information.documentation' ? 'is-active' : ''", href='https://docs.starpeace.io') Documentation
 
-        p.menu-label Contribute
-        li
-          a(:class="category == 'contribute.collaborate' ? 'is-active' : ''", href="/contribute/collaborate") Collaborate
-        li
-          a(:class="category == 'contribute.ledger' ? 'is-active' : ''", href="/contribute/ledger") Project Ledger
-
         p.menu-label Development
         li
           a(:class="category == 'development.overview' ? 'is-active' : ''", href="/development/overview") Overview and Roadmap

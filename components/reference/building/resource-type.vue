@@ -18,17 +18,18 @@
         td {{name_for(resource)}}
         td {{resource.unit_id}}
         td.has-text-right {{format_money(resource.price, 2)}}
+
         td.price-scale-slider
           input.slider.is-fullwidth(type='range', step='1', min='1', max='500', v-model='resource_price_cost_adjustment_by_id[resource.id]')
         td.price-scale-text
           input.is-fullwidth(type='number', step='1', min='1', max='500', v-model='resource_price_cost_adjustment_by_id[resource.id]')
         td.has-text-right {{format_money((resource_price_cost_adjustment_by_id[resource.id] / 100) * resource.price, 2)}}
+
         td.price-scale-slider
           input.slider.is-fullwidth(type='range', step='1', min='1', max='500', v-model='resource_price_sale_adjustment_by_id[resource.id]')
         td.price-scale-text
           input.is-fullwidth(type='number', step='1', min='1', max='500', v-model='resource_price_sale_adjustment_by_id[resource.id]')
         td.has-text-right {{format_money((resource_price_sale_adjustment_by_id[resource.id] / 100) * resource.price, 2)}}
-
 
 </template>
 

@@ -46,14 +46,14 @@
           td.has-text-right ${{format_money(financial.income)}}
           td.has-text-right ${{format_money(financial.profit)}}
           td.has-text-right ${{format_money(financial.profit_month)}}
-          td.has-text-right {{financial.profit < 0 ? 'never' : financial.roi_month}}
+          td.has-text-right {{financial.profit <= 0 || financial.roi_month == Number.MAX_VALUE ? 'never' : financial.roi_month}}
 
         template(v-if="selected_by_id[financial.id] ? true : false")
           tr
             td.is-paddingless(colspan=15)
               .columns.is-paddingless.is-marginless
 
-                .column.is-narrow(v-if="!!building_simulation_definitions_by_id[financial.id].construction_inputs")
+                .column.is-narrow(v-if="building_simulation_definitions_by_id[financial.id].construction_inputs.length")
                   .card.construction-card
                     header.card-header
                       p.card-header-title Construction Expenses
@@ -65,7 +65,7 @@
                           td {{Math.ceil(input.quantity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
                           td.has-text-right ${{format_money(input.quantity * cost_price_of(input.resource))}}
 
-                  .card.construction-card
+                  .card.construction-card(v-if="building_simulation_definitions_by_id[financial.id].max_level > 1")
                     header.card-header
                       p.card-header-title Construction Expenses
                       p.card-header-icon upgrades
@@ -78,8 +78,8 @@
                             input.is-fullwidth(type='number', step='1', min='1', :max="building_simulation_definitions_by_id[financial.id].max_level", v-model='max_levels_by_id[financial.id]')
                         tr(v-for="input in building_simulation_definitions_by_id[financial.id].construction_inputs")
                           td {{resource_types_by_id[input.resource].label_plural.EN}}
-                          td {{Math.ceil(upgrade_quantity(financial.id, input.quantity))}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                          td.has-text-right ${{format_money(upgrade_quantity(financial.id, input.quantity) * cost_price_of(input.resource))}}
+                          td {{Math.ceil(quantity_for_upgrade(financial.id, input.resource, input.quantity))}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                          td.has-text-right ${{format_money(quantity_for_upgrade(financial.id, input.resource, input.quantity) * cost_price_of(input.resource))}}
 
 
                 template(v-if="building_simulation_definitions_by_id[financial.id].type == 'FACTORY'")
@@ -257,7 +257,7 @@
                               td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
 
                   .column
-                    .card
+                    .card.products-card
                       header.card-header
                         p.card-header-title Products
                         p.card-header-icon per hour
@@ -287,10 +287,16 @@
                             template(v-else)
                               table.table.is-fullwidth.is-borderless
                                 tbody
-                                  tr(v-for="input in product.outputs")
-                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
-                                    td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                                    td.has-text-right ${{format_money(input.max_velocity * sale_price_of(input.resource))}}
+                                  template(v-for="input in product.outputs")
+                                    tr
+                                      td(colspan=2)
+                                        input.slider.is-fullwidth.is-marginless(type='range', step='1', min='1', max='100', v-model="demand_by_id_type[financial.id + '-' + input.resource]")
+                                      td
+                                        input.is-fullwidth(type='number', step='1', min='1', max='100', v-model="demand_by_id_type[financial.id + '-' + input.resource]")
+                                    tr
+                                      td {{resource_types_by_id[input.resource].label_plural.EN}}
+                                      td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                                      td.has-text-right ${{format_money(input.max_velocity * sale_price_of(input.resource))}}
 
 </template>
 
@@ -330,6 +336,7 @@ export default
     industry_types_by_id: Object
 
     max_levels_by_id: Object
+    demand_by_id_type: Object
 
     resource_types_by_id: Object
     resource_units_by_id: Object
@@ -386,7 +393,9 @@ export default
     format_money: Utils.format_money
     format_quantity: (quantity) -> parseFloat(quantity.toFixed(4))
 
-    upgrade_quantity: (id, quantity) -> ((@max_levels_by_id[id] || 1) - 1) * 0.5 * quantity
+    quantity_for_full_level: (id, resource_type, quantity) -> (@max_levels_by_id[id] || 1) * quantity * ((@demand_by_id_type["#{id}-#{resource_type}"] || 100) / 100)
+    quantity_for_half_level: (id, resource_type, quantity) -> (1 + ((@max_levels_by_id[id] || 1) - 1) * 0.5) * quantity * ((@demand_by_id_type["#{id}-#{resource_type}"] || 100) / 100)
+    quantity_for_upgrade: (id, resource_type, quantity) -> @quantity_for_half_level(id, resource_type, quantity) - quantity
 
     cost_price_of: (resource_id) -> (@resource_types_by_id[resource_id]?.price || 0) * ((@resource_price_cost_adjustment_by_id[resource_id] || 100) / 100)
     sale_price_of: (resource_id) -> (@resource_types_by_id[resource_id]?.price || 0) * ((@resource_price_sale_adjustment_by_id[resource_id] || 100) / 100)
@@ -453,13 +462,16 @@ export default
   &:not(:first-child)
     margin-top: .5rem
 
-.construction-table
+.construction-table,
+.products-card
   td
     vertical-align: middle
 
     input
       &.is-fullwidth
         width: 100%
+
+
 
 .none-container
   padding: 0.5em 0.75em
