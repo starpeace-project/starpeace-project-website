@@ -38,12 +38,10 @@
     "coffeescript": "^2.4.1",
     "cross-env": "^6.0.0",
     "del-cli": "^3.0.0",
-    "fibers": "^4.0.1",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
     "pug": "^2.0.4",
     "pug-plain-loader": "^1.0.0",
-    "sass": "^1.22.12",
     "sass-loader": "^7.1.0",
     "terser": "4.3.4"
   }
