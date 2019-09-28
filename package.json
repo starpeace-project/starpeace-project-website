@@ -30,6 +30,7 @@
     "@nuxtjs/moment": "^1.3.0",
     "@openapitools/openapi-generator-cli": "0.0.7-4.0.0-beta2",
     "@starpeace/starpeace-assets": "git://github.com/starpeace-project/starpeace-assets.git",
+    "@starpeace/starpeace-assets-types": "git://github.com/starpeace-project/starpeace-assets-types.git",
     "@starpeace/starpeace-server-multiverse-api": "git://github.com/starpeace-project/starpeace-server-multiverse-api.git#v0.1.6",
     "bulma": "^0.7.5",
     "bulma-slider": "^2.0.0",

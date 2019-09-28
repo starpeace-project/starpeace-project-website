@@ -18,7 +18,7 @@ export default class Financials
     financials = new Financials()
     financials.id = definition.id
 
-    financials.capex = _.reduce(definition.construction_inputs, ((result, value) -> result + value.quantity * cost_price_of(value.resource) * half_level_adjustment), 0)
+    financials.capex = _.reduce(definition.construction_inputs, ((result, value) -> result + value.quantity * cost_price_of(value.resource_id) * half_level_adjustment), 0)
     financials.opex_labor = 0
     financials.opex_operations = 0
     financials.opex_supplies = 0
@@ -32,30 +32,30 @@ export default class Financials
       income = 0
       for stage in definition.stages
         total_duration += stage.duration
-        opex_labor += _.reduce(stage.labor, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource) * full_level_adjustment), 0) * stage.duration
-        opex_operations += _.reduce(stage.operations, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource) * half_level_adjustment), 0) * stage.duration
-        opex_supplies += _.reduce(stage.inputs, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource) * full_level_adjustment), 0) * stage.duration
-        income += _.reduce(stage.outputs, ((result, value) -> result + value.max_velocity * sale_price_of(value.resource) * full_level_adjustment), 0) * stage.duration
+        opex_labor += _.reduce(stage.labor, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource_id) * full_level_adjustment), 0) * stage.duration
+        opex_operations += _.reduce(stage.operations, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource_id) * half_level_adjustment), 0) * stage.duration
+        opex_supplies += _.reduce(stage.inputs, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource_id) * full_level_adjustment), 0) * stage.duration
+        income += _.reduce(stage.outputs, ((result, value) -> result + value.max_velocity * sale_price_of(value.resource_id) * full_level_adjustment), 0) * stage.duration
       financials.opex_labor = opex_labor / total_duration
       financials.opex_operations = opex_operations / total_duration
       financials.opex_supplies = opex_supplies / total_duration
       financials.income = income / total_duration
 
     else if definition.type == 'STORAGE'
-      financials.opex_labor = _.reduce(definition.labor, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource) * full_level_adjustment), 0)
-      financials.opex_operations = _.reduce(definition.operations, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource) * half_level_adjustment), 0)
+      financials.opex_labor = _.reduce(definition.labor, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource_id) * full_level_adjustment), 0)
+      financials.opex_operations = _.reduce(definition.operations, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource_id) * half_level_adjustment), 0)
       financials.opex_supplies = 0
       financials.income = 0
 
     else if definition.type == 'STORE'
-      financials.opex_labor = _.reduce(definition.labor, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource) * full_level_adjustment), 0)
-      financials.opex_operations = _.reduce(definition.operations, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource) * half_level_adjustment), 0)
+      financials.opex_labor = _.reduce(definition.labor, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource_id) * full_level_adjustment), 0)
+      financials.opex_operations = _.reduce(definition.operations, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource_id) * half_level_adjustment), 0)
 
       opex_supplies = 0
       income = 0
       for product in definition.products
-        opex_supplies += _.reduce(product.inputs, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource) * full_level_adjustment), 0)
-        income += _.reduce(product.outputs, ((result, value) -> result + value.max_velocity * sale_price_of(value.resource) * full_level_adjustment), 0)
+        opex_supplies += _.reduce(product.inputs, ((result, value) -> result + value.max_velocity * cost_price_of(value.resource_id) * full_level_adjustment), 0)
+        income += _.reduce(product.outputs, ((result, value) -> result + value.max_velocity * sale_price_of(value.resource_id) * full_level_adjustment), 0)
       financials.opex_supplies = opex_supplies
       financials.income = income
 

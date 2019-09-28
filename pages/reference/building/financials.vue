@@ -18,7 +18,7 @@
                   v-for='category in sorted_industry_categories',
                   v-on:click.stop.prevent="toggle_filter_category(category.id)",
                   :class="selected_industry_categories_by_id[category.id] ? 'is-active' : ''"
-                ) {{category.label.EN}}
+                ) {{category.label.english}}
 
             .navbar-item.has-dropdown.is-hoverable
               a.navbar-link Industry
@@ -30,7 +30,7 @@
                   v-for='industry_type in sorted_industry_types',
                   v-on:click.stop.prevent="toggle_filter_industry_type(industry_type.id)",
                   :class="selected_industry_types_by_id[industry_type.id] ? 'is-active' : ''"
-                ) {{industry_type.label.EN}}
+                ) {{industry_type.label.english}}
 
             .navbar-item.has-dropdown.is-hoverable
               a.navbar-link Seal
@@ -42,7 +42,7 @@
                   v-for='seal in sorted_company_seals',
                   v-on:click.stop.prevent="toggle_filter_seal(seal.id)",
                   :class="selected_company_seals_by_id[seal.id] ? 'is-active' : ''"
-                ) {{seal.name_short.EN}}
+                ) {{seal.name_short}}
 
             .navbar-item.has-dropdown.is-hoverable
               a.navbar-link Level
@@ -54,7 +54,7 @@
                   v-for='level in sorted_levels',
                   v-on:click.stop.prevent="toggle_filter_level(level.id)",
                   :class="selected_levels_by_id[level.id] ? 'is-active' : ''"
-                ) {{level.label.EN}}
+                ) {{level.label.english}}
 
     .card-content.main-card
       resource-type(
@@ -88,17 +88,7 @@
 
 <script lang='coffee'>
 import _ from 'lodash'
-import {
-  BuildingDefinition
-  BuildingSimulationDefinitionParser
-  CompanySeal
-  IndustryCategory
-  IndustryType
-  InventionDefinition
-  Level
-  ResourceType
-  ResourceUnit
-} from '@starpeace/starpeace-assets'
+import STARPEACE from '@starpeace/starpeace-assets-types'
 
 import FinancialsIndustryComponent from '~/components/reference/building/financials-industry.vue'
 import ResourceTypeComponent from '~/components/reference/building/resource-type.vue'
@@ -125,7 +115,7 @@ export default
     demand_by_id_type:  _.fromPairs(_.compact(_.flatMap(@building_simulation_definitions(), (definition) ->
       return null unless definition.type == 'STORE'
       _.flatMap(definition.products, (product) ->
-        _.map(product.outputs, (output) -> ["#{definition.id}-#{output.resource}", demand_for_resource(output.resource)])
+        _.map(product.outputs, (output) -> ["#{definition.id}-#{output.resource_id}", demand_for_resource(output.resource_id)])
       )
     )))
     resource_price_cost_adjustment_by_id: _.fromPairs(_.map(@resource_types(), (type) -> [type.id, (if type.id == 'EXECUTIVE' || type.id == 'PROFESSIONAL' || type.id == 'WORKER' then 100 else 200)]))
@@ -141,21 +131,21 @@ export default
     resource_types_by_id: -> _.keyBy(@resource_types(), 'id')
     resource_units_by_id: -> _.keyBy(@resource_units(), 'id')
 
-    sorted_industry_categories: -> _.sortBy(@industry_categories(), (category) -> category.label.EN)
-    sorted_industry_types: -> _.sortBy(@industry_types(), (type) -> type.label.EN)
-    sorted_company_seals: -> _.sortBy(@company_seals(), (seal) -> seal.name_short.EN)
+    sorted_industry_categories: -> _.sortBy(@industry_categories(), (category) -> category.label.english)
+    sorted_industry_types: -> _.sortBy(@industry_types(), (type) -> type.label.english)
+    sorted_company_seals: -> _.sortBy(@company_seals(), (seal) -> seal.name_short.english)
     sorted_levels: -> _.sortBy(@levels(), (seal) -> seal.level)
 
   methods:
-    building_definitions: () -> _.map(process.env.BUILDING_DEFINITIONS, BuildingDefinition.from_json)
-    building_simulation_definitions: () -> _.map(process.env.BUILDING_SIMULATION_DEFINITIONS, BuildingSimulationDefinitionParser.from_json)
-    company_seals: () -> _.map(process.env.COMPANY_SEALS, CompanySeal.from_json)
-    industry_categories: () -> _.map(process.env.INDUSTRY_CATEGORIES, IndustryCategory.from_json)
-    industry_types: () -> _.map(process.env.INDUSTRY_TYPES, IndustryType.from_json)
-    inventions: () -> _.map(process.env.INVENTIONS, InventionDefinition.from_json)
-    levels: () -> _.map(process.env.LEVELS, Level.from_json)
-    resource_types: () -> _.map(process.env.RESOURCE_TYPES, ResourceType.from_json)
-    resource_units: () -> _.map(process.env.RESOURCE_UNITS, ResourceUnit.from_json)
+    building_definitions: () -> _.map(process.env.BUILDING_DEFINITIONS, STARPEACE.building.BuildingDefinition.from_json)
+    building_simulation_definitions: () -> _.map(process.env.BUILDING_SIMULATION_DEFINITIONS, STARPEACE.building.simulation.BuildingSimulationDefinitionParser.from_json)
+    company_seals: () -> _.map(process.env.COMPANY_SEALS, STARPEACE.seal.CompanySeal.from_json)
+    industry_categories: () -> _.map(process.env.INDUSTRY_CATEGORIES, STARPEACE.industry.IndustryCategory.from_json)
+    industry_types: () -> _.map(process.env.INDUSTRY_TYPES, STARPEACE.industry.IndustryType.from_json)
+    inventions: () -> _.map(process.env.INVENTIONS, STARPEACE.invention.InventionDefinition.from_json)
+    levels: () -> _.map(process.env.LEVELS, STARPEACE.industry.Level.from_json)
+    resource_types: () -> _.map(process.env.RESOURCE_TYPES, STARPEACE.industry.ResourceType.from_json)
+    resource_units: () -> _.map(process.env.RESOURCE_UNITS, STARPEACE.industry.ResourceUnit.from_json)
 
     toggle_filter_category: (category_id) ->
       if category_id == 'all' || category_id == 'none'

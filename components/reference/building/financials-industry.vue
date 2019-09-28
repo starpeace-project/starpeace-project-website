@@ -28,15 +28,15 @@
     tbody
       template(v-for='financial in sorted_simulation_financials')
         tr.buiding-row(v-on:click.prevent='toggle_row(financial.id)', :class="selected_by_id[financial.id] ? 'is-selected' : ''")
-          td {{industry_categories_by_id[building_definitions_by_id[financial.id].category].label.EN}}
-          td {{industry_types_by_id[building_definitions_by_id[financial.id].industry_type].label.EN}}
-          td {{company_seals_by_id[building_definitions_by_id[financial.id].seal_id].name_short.EN}}
-          td {{level_for_id(financial.id).label.EN}}
+          td {{industry_categories_by_id[building_definitions_by_id[financial.id].category_id].label.english}}
+          td {{industry_types_by_id[building_definitions_by_id[financial.id].industry_type_id].label.english}}
+          td {{company_seals_by_id[building_definitions_by_id[financial.id].seal_id].name_short}}
+          td {{level_for_id(financial.id).label.english}}
           td.has-text-centered
             template(v-if="has_inventions(financial.id)")
               span.tooltip(:data-tooltip='inventions_label(financial.id)')
                 font-awesome-icon(:icon="['fas', 'check']")
-          td {{building_definitions_by_id[financial.id].name.EN}}
+          td {{building_definitions_by_id[financial.id].name.english}}
 
           td.has-text-right ${{format_money(financial.capex)}}
           td.has-text-right ${{format_money(financial.opex_operations)}}
@@ -61,9 +61,9 @@
                     table.table.is-fullwidth.is-borderless.construction-table
                       tbody
                         tr(v-for="input in building_simulation_definitions_by_id[financial.id].construction_inputs")
-                          td {{resource_types_by_id[input.resource].label_plural.EN}}
-                          td {{Math.ceil(input.quantity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                          td.has-text-right ${{format_money(input.quantity * cost_price_of(input.resource))}}
+                          td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                          td {{Math.ceil(input.quantity)}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                          td.has-text-right ${{format_money(input.quantity * cost_price_of(input.resource_id))}}
 
                   .card.construction-card(v-if="building_simulation_definitions_by_id[financial.id].max_level > 1")
                     header.card-header
@@ -77,9 +77,9 @@
                           td
                             input.is-fullwidth(type='number', step='1', min='1', :max="building_simulation_definitions_by_id[financial.id].max_level", v-model='max_levels_by_id[financial.id]')
                         tr(v-for="input in building_simulation_definitions_by_id[financial.id].construction_inputs")
-                          td {{resource_types_by_id[input.resource].label_plural.EN}}
-                          td {{Math.ceil(quantity_for_upgrade(financial.id, input.resource, input.quantity))}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                          td.has-text-right ${{format_money(quantity_for_upgrade(financial.id, input.resource, input.quantity) * cost_price_of(input.resource))}}
+                          td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                          td {{Math.ceil(quantity_for_upgrade(financial.id, input.resource_id, input.quantity))}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                          td.has-text-right ${{format_money(quantity_for_upgrade(financial.id, input.resource_id, input.quantity) * cost_price_of(input.resource_id))}}
 
 
                 template(v-if="building_simulation_definitions_by_id[financial.id].type == 'FACTORY'")
@@ -124,9 +124,9 @@
                               table.table.is-fullwidth.is-borderless
                                 tbody
                                   tr(v-for="input in stage.operations")
-                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
-                                    td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+                                    td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                                    td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource_id))}}
 
                         .column
                           .card
@@ -140,9 +140,9 @@
                               table.table.is-fullwidth.is-borderless
                                 tbody
                                   tr(v-for="input in stage.labor")
-                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
-                                    td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+                                    td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                                    td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource_id))}}
 
                         .column
                           .card
@@ -156,9 +156,9 @@
                               table.table.is-fullwidth.is-borderless
                                 tbody
                                   tr(v-for="input in stage.inputs")
-                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
-                                    td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+                                    td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                                    td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource_id))}}
 
                         .column
                           .card
@@ -172,9 +172,9 @@
                               table.table.is-fullwidth.is-borderless
                                 tbody
                                   tr(v-for="input in stage.outputs")
-                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
-                                    td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                                    td.has-text-right ${{format_money(input.max_velocity * sale_price_of(input.resource))}}
+                                    td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                                    td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                                    td.has-text-right ${{format_money(input.max_velocity * sale_price_of(input.resource_id))}}
 
                 template(v-if="building_simulation_definitions_by_id[financial.id].type == 'STORAGE'")
                   .column.is-narrow
@@ -189,9 +189,9 @@
                         table.table.is-fullwidth.is-borderless
                           tbody
                             tr(v-for="input in building_simulation_definitions_by_id[financial.id].operations")
-                              td {{resource_types_by_id[input.resource].label_plural.EN}}
-                              td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+                              td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                              td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource_id))}}
 
                   .column.is-narrow
                     .card
@@ -205,9 +205,9 @@
                         table.table.is-fullwidth.is-borderless
                           tbody
                             tr(v-for="input in building_simulation_definitions_by_id[financial.id].labor")
-                              td {{resource_types_by_id[input.resource].label_plural.EN}}
-                              td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+                              td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                              td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource_id))}}
 
                   .column
                     .card
@@ -220,8 +220,8 @@
                         table.table.is-fullwidth.is-borderless
                           tbody
                             tr(v-for="input in building_simulation_definitions_by_id[financial.id].storage")
-                              td {{resource_types_by_id[input.resource].label_plural.EN}}
-                              td {{input.max}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
+                              td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                              td {{input.max}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
 
                 template(v-if="building_simulation_definitions_by_id[financial.id].type == 'STORE'")
                   .column.is-narrow
@@ -236,9 +236,9 @@
                         table.table.is-fullwidth.is-borderless
                           tbody
                             tr(v-for="input in building_simulation_definitions_by_id[financial.id].operations")
-                              td {{resource_types_by_id[input.resource].label_plural.EN}}
-                              td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+                              td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                              td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource_id))}}
 
                   .column.is-narrow
                     .card
@@ -252,9 +252,9 @@
                         table.table.is-fullwidth.is-borderless
                           tbody
                             tr(v-for="input in building_simulation_definitions_by_id[financial.id].labor")
-                              td {{resource_types_by_id[input.resource].label_plural.EN}}
-                              td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+                              td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                              td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                              td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource_id))}}
 
                   .column
                     .card.products-card
@@ -273,9 +273,9 @@
                               table.table.is-fullwidth.is-borderless
                                 tbody
                                   tr(v-for="input in product.inputs")
-                                    td {{resource_types_by_id[input.resource].label_plural.EN}}
-                                    td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource))}}
+                                    td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                                    td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                                    td.has-text-right ${{format_money(input.max_velocity * cost_price_of(input.resource_id))}}
 
                         .column
                           .card
@@ -289,14 +289,9 @@
                                 tbody
                                   template(v-for="input in product.outputs")
                                     tr
-                                      td(colspan=2)
-                                        input.slider.is-fullwidth.is-marginless(type='range', step='1', min='1', max='100', v-model="demand_by_id_type[financial.id + '-' + input.resource]")
-                                      td
-                                        input.is-fullwidth(type='number', step='1', min='1', max='100', v-model="demand_by_id_type[financial.id + '-' + input.resource]")
-                                    tr
-                                      td {{resource_types_by_id[input.resource].label_plural.EN}}
-                                      td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource].unit_id].label_plural.EN}}
-                                      td.has-text-right ${{format_money(input.max_velocity * sale_price_of(input.resource))}}
+                                      td {{resource_types_by_id[input.resource_id].label_plural.english}}
+                                      td {{format_quantity(input.max_velocity)}} {{resource_units_by_id[resource_types_by_id[input.resource_id].unit_id].label_plural.english}}
+                                      td.has-text-right ${{format_money(input.max_velocity * sale_price_of(input.resource_id))}}
 
 </template>
 
@@ -363,8 +358,8 @@ export default
 
     filtered_financials: ->
       _.filter(@financials, (financial) =>
-        return false unless @selected_industry_categories_by_id[@building_definitions_by_id[financial.id].category]
-        return false unless @selected_industry_types_by_id[@building_definitions_by_id[financial.id].industry_type]
+        return false unless @selected_industry_categories_by_id[@building_definitions_by_id[financial.id].category_id]
+        return false unless @selected_industry_types_by_id[@building_definitions_by_id[financial.id].industry_type_id]
         return false unless @selected_company_seals_by_id[@building_definitions_by_id[financial.id].seal_id]
         return false unless @selected_levels_by_id[@level_for_id(financial.id).id]
         true
@@ -372,15 +367,15 @@ export default
     sorted_simulation_financials: ->
       sort_by = []
       if COLUMNS[@sorted_index].field == 'category'
-        sort_by.push((financial) => @industry_categories_by_id[@building_definitions_by_id[financial.id].category].label.EN)
+        sort_by.push((financial) => @industry_categories_by_id[@building_definitions_by_id[financial.id].category_id].label.english)
       else if COLUMNS[@sorted_index].field == 'industry_type'
-        sort_by.push((financial) => @industry_types_by_id[@building_definitions_by_id[financial.id].industry_type].label.EN)
+        sort_by.push((financial) => @industry_types_by_id[@building_definitions_by_id[financial.id].industry_type_id].label.english)
       else if COLUMNS[@sorted_index].field == 'seal'
-        sort_by.push((financial) => @company_seals_by_id[@building_definitions_by_id[financial.id]?.seal_id].name_short?.EN || 'unknown')
+        sort_by.push((financial) => @company_seals_by_id[@building_definitions_by_id[financial.id]?.seal_id].name_short? || 'unknown')
       else if COLUMNS[@sorted_index].field == 'level'
         sort_by.push((financial) => @level_for_id(financial.id).level)
       else if COLUMNS[@sorted_index].field == 'name'
-        sort_by.push((financial) => @building_definitions_by_id[financial.id].name.EN)
+        sort_by.push((financial) => @building_definitions_by_id[financial.id].name.english)
       else
         sort_by.push(COLUMNS[@sorted_index].field)
       sort_by.push((financial) -> -financial.profit_month) if COLUMNS[@sorted_index].field == 'roi_month'
@@ -401,7 +396,7 @@ export default
     sale_price_of: (resource_id) -> (@resource_types_by_id[resource_id]?.price || 0) * ((@resource_price_sale_adjustment_by_id[resource_id] || 100) / 100)
 
     has_inventions: (building_id) -> (@building_definitions_by_id[building_id]?.required_invention_ids || []).length > 0
-    inventions_label: (building_id) -> _.compact(_.map(@building_definitions_by_id[building_id]?.required_invention_ids, (id) => @inventions_by_id[id]?.name?.EN)).join(', ')
+    inventions_label: (building_id) -> _.compact(_.map(@building_definitions_by_id[building_id]?.required_invention_ids, (id) => @inventions_by_id[id]?.name?.english)).join(', ')
 
     level_for_id: (building_id) ->
       max_level = @levels_by_id.APPRENTICE
