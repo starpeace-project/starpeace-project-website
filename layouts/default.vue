@@ -1,6 +1,6 @@
 <template lang='pug'>
 #application-container(v-cloak=true)
-  no-ssr
+  client-only
     sp-header
     #application-body.columns
       sp-menu(:category='category')

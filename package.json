@@ -13,36 +13,38 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "cross-env nuxt generate && del-cli ./dist/.nojekyll",
-    "generate-api-docs": "openapi-generator generate -i ./node_modules/@starpeace/starpeace-server-galaxy-api/api/openapi.yaml -g html -t ./openapi/html-templates/ -o ./dist/api-docs/galaxy && del-cli ./dist/api-docs/galaxy/.openapi-generator-ignore ./dist/api-docs/galaxy/.openapi-generator",
+    "generate-api-docs": "openapi-generator generate -i ./node_modules/@starpeace/starpeace-server-multiverse-api/api/openapi.yaml -g html -t ./openapi/html-templates/ -o ./dist/api-docs/multiverse && del-cli ./dist/api-docs/multiverse/.openapi-generator-ignore ./dist/api-docs/multiverse/.openapi-generator",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "nuxt": "^2.6.2"
+    "nuxt": "^2.9.2"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.17",
-    "@fortawesome/free-brands-svg-icons": "^5.8.1",
-    "@fortawesome/free-regular-svg-icons": "^5.8.1",
-    "@fortawesome/free-solid-svg-icons": "^5.8.1",
-    "@fortawesome/vue-fontawesome": "^0.1.6",
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-brands-svg-icons": "^5.11.2",
+    "@fortawesome/free-regular-svg-icons": "^5.11.2",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/vue-fontawesome": "^0.1.7",
     "@nuxtjs/google-analytics": "^2.2.0",
-    "@nuxtjs/moment": "^1.2.0",
+    "@nuxtjs/moment": "^1.3.0",
     "@openapitools/openapi-generator-cli": "0.0.7-4.0.0-beta2",
     "@starpeace/starpeace-assets": "git://github.com/starpeace-project/starpeace-assets.git",
-    "@starpeace/starpeace-server-galaxy-api": "git://github.com/starpeace-project/starpeace-server-galaxy-api.git#v0.1.4",
-    "bulma": "^0.7.4",
+    "@starpeace/starpeace-server-multiverse-api": "git://github.com/starpeace-project/starpeace-server-multiverse-api.git#v0.1.6",
+    "bulma": "^0.7.5",
     "bulma-slider": "^2.0.0",
     "bulma-tooltip": "^2.0.2",
     "coffee-loader": "^0.9.0",
     "coffeescript": "^2.4.1",
-    "cross-env": "^5.2.0",
-    "del-cli": "^1.1.0",
+    "cross-env": "^6.0.0",
+    "del-cli": "^3.0.0",
+    "fibers": "^4.0.1",
     "moment": "^2.24.0",
-    "node-sass": "^4.11.0",
-    "pug": "^2.0.3",
+    "node-sass": "^4.12.0",
+    "pug": "^2.0.4",
     "pug-plain-loader": "^1.0.0",
+    "sass": "^1.22.12",
     "sass-loader": "^7.1.0",
-    "terser": "3.17.0"
+    "terser": "4.3.4"
   }
 }

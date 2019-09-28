@@ -6,14 +6,14 @@
 
 <script lang='coffee'>
 export default
-  category: 'api.galaxy'
+  category: 'api.multiverse'
 
   data: ->
     api_html: ''
 
   created: ->
     request = new XMLHttpRequest()
-    request.open("GET", '/api-docs/galaxy/index.html')
+    request.open("GET", '/api-docs/multiverse/index.html')
     request.send()
     request.onreadystatechange = (e) =>
       @api_html = request.responseText
