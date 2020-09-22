@@ -15,9 +15,9 @@ Looking to play STARPEACE or help contribute to a modern open-source re-build? P
 
 ### Client
 * [starpeace-website](https://github.com/starpeace-project/starpeace-website) - static client homepage and license content
-* [starpeace-website-client](https://github.com/starpeace-project/starpeace-website-client) - client game application logic and webgl rendering website
-* [starpeace-website-client-assets](https://github.com/starpeace-project/starpeace-website-client-assets) - procedural generation and compilation logic of assets for client
-* [starpeace-website-documentation](https://github.com/starpeace-project/starpeace-website-documentation) - static and dynamic documentation website
+* [starpeace-client-website](https://github.com/starpeace-project/starpeace-client-website) - client game application logic and webgl rendering website
+* [starpeace-client-website-assets](https://github.com/starpeace-project/starpeace-client-website-assets) - procedural generation and compilation logic of assets for client
+* [starpeace-documentation-website](https://github.com/starpeace-project/starpeace-documentation-website) - static and dynamic documentation website
 
 ### Server - Multiverse (game-play and simulation server)
 * [starpeace-server-multiverse-api](https://github.com/starpeace-project/starpeace-server-multiverse-api) - STARPEACE Multiverse API interface
@@ -25,6 +25,7 @@ Looking to play STARPEACE or help contribute to a modern open-source re-build? P
 
 ### Misc
 * [starpeace-assets](https://github.com/starpeace-project/starpeace-assets) - raw media assets, gameplay resources, and simulation configurations
+* [starpeace-assets-types](https://github.com/starpeace-project/starpeace-assets-types) - Javascript types representing gameplay resources and simulation configurations
 * [starpeace-documents-public](https://github.com/starpeace-project/starpeace-documents-public) - public design, planning, and gameplay documents
 * [starpeace-project-website](https://github.com/starpeace-project/starpeace-project-website) - project static content, auto-generated API documentation, and community information
 
